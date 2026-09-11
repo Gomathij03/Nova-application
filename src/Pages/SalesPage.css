@@ -1,0 +1,661 @@
+/* =========================================
+   SALES PAGES - COMMON STYLING
+========================================= */
+
+.sales-page {
+  min-height: 100vh;
+  padding: 24px 0 60px;
+  background: #f7f7f5;
+  color: #1f2937;
+}
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.sales-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0 5% 18px;
+  padding: 10px 18px;
+
+  border: 1px solid #dedede;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #333;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.sales-back-button:hover {
+  background: #222;
+  color: #fff;
+  border-color: #222;
+  transform: translateX(-2px);
+}
+
+/* =========================================
+   COMMON HERO
+========================================= */
+
+.sales-hero {
+  position: relative;
+
+  width: 90%;
+  min-height: 390px;
+
+  margin: 0 auto 55px;
+
+  overflow: hidden;
+  border-radius: 22px;
+
+  display: flex;
+  align-items: center;
+
+  isolation: isolate;
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+   HERO BACKGROUNDS
+========================================= */
+
+.festive-sale-hero {
+  background:
+    radial-gradient(
+      circle at 75% 30%,
+      rgba(255, 211, 96, 0.45),
+      transparent 25%
+    ),
+    linear-gradient(
+      120deg,
+      #58151b,
+      #8e2428 48%,
+      #d19a35
+    );
+}
+
+.discount-sale-hero {
+  background:
+    radial-gradient(
+      circle at 80% 35%,
+      rgba(255, 255, 255, 0.4),
+      transparent 24%
+    ),
+    linear-gradient(
+      120deg,
+      #f5c400,
+      #ff8c00 48%,
+      #e83e35
+    );
+}
+
+.mega-sale-hero {
+  background:
+    radial-gradient(
+      circle at 75% 40%,
+      rgba(255, 215, 90, 0.4),
+      transparent 25%
+    ),
+    linear-gradient(
+      120deg,
+      #172554,
+      #6d28d9 50%,
+      #c026d3
+    );
+}
+
+/* =========================================
+   DECORATIVE BACKGROUND
+========================================= */
+
+.sales-hero::before {
+  content: "";
+
+  position: absolute;
+  width: 350px;
+  height: 350px;
+
+  right: 5%;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 35px rgba(255, 255, 255, 0.04),
+    0 0 0 70px rgba(255, 255, 255, 0.025);
+
+  pointer-events: none;
+}
+
+.sales-hero::after {
+  content: "✦";
+
+  position: absolute;
+
+  right: 7%;
+  top: 12%;
+
+  color: rgba(255, 255, 255, 0.5);
+
+  font-size: 28px;
+
+  pointer-events: none;
+}
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.sales-hero-content {
+  position: relative;
+  z-index: 5;
+
+  width: 48%;
+
+  margin-left: 7%;
+
+  padding: 35px 0;
+
+  color: #fff;
+}
+
+/* =========================================
+   EYEBROW
+========================================= */
+
+.sales-eyebrow {
+  display: inline-block;
+
+  margin-bottom: 12px;
+
+  color: #ffe8a3;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.sales-hero-content h1 {
+  margin: 0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(55px, 6vw, 90px);
+
+  line-height: 0.86;
+
+  font-weight: 700;
+
+  letter-spacing: -4px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.sales-hero-content > p {
+  max-width: 410px;
+
+  margin: 22px 0;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+/* =========================================
+   OFFER
+========================================= */
+
+.sales-offer {
+  display: inline-flex;
+
+  align-items: baseline;
+
+  gap: 8px;
+
+  padding: 9px 17px;
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+
+  background: rgba(0, 0, 0, 0.18);
+
+  backdrop-filter: blur(8px);
+}
+
+.sales-offer span {
+  color: #fff;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+}
+
+.sales-offer strong {
+  color: #ffe08a;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 35px;
+
+  line-height: 1;
+}
+
+/* =========================================
+   FESTIVE HERO SPECIAL
+========================================= */
+
+.festive-sale-hero .sales-offer {
+  border-color: rgba(255, 224, 138, 0.55);
+}
+
+/* =========================================
+   DISCOUNT HERO SPECIAL
+========================================= */
+
+.discount-sale-hero .sales-hero-content {
+  color: #211400;
+}
+
+.discount-sale-hero .sales-eyebrow {
+  color: #5b2b00;
+}
+
+.discount-sale-hero .sales-hero-content > p {
+  color: rgba(40, 25, 0, 0.8);
+}
+
+.discount-sale-hero .sales-offer {
+  background: #241600;
+  border-color: #241600;
+}
+
+.discount-sale-hero .sales-offer span {
+  color: #ffffff;
+}
+
+.discount-sale-hero .sales-offer strong {
+  color: #ffd84d;
+}
+
+/* =========================================
+   MEGA SALE SPECIAL
+========================================= */
+
+.mega-sale-hero .sales-offer {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* =========================================
+   PRODUCTS SECTION
+========================================= */
+
+.sale-products-section {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* =========================================
+   PRODUCTS HEADING
+========================================= */
+
+.sale-products-heading {
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 28px;
+}
+
+.sales-section-eyebrow {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #a16b20;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.sale-products-heading h2 {
+  margin: 0;
+
+  color: #171717;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(30px, 4vw, 45px);
+
+  line-height: 1.05;
+}
+
+.sale-products-heading p {
+  max-width: 520px;
+
+  margin: 10px 0 0;
+
+  color: #777;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+/* =========================================
+   PRODUCT COUNT
+========================================= */
+
+.sale-product-count {
+  flex-shrink: 0;
+
+  padding: 9px 15px;
+
+  border: 1px solid #dedede;
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  color: #555;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* =========================================
+   NO PRODUCTS
+========================================= */
+
+.no-sale-products {
+  min-height: 220px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  border: 1px dashed #d4d4d4;
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  text-align: center;
+}
+
+.no-sale-products h3 {
+  margin: 0 0 8px;
+
+  color: #333;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 24px;
+}
+
+.no-sale-products p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 950px) {
+
+  .sales-hero {
+    min-height: 350px;
+  }
+
+  .sales-hero-content {
+    width: 55%;
+    margin-left: 6%;
+  }
+
+  .sales-hero-content h1 {
+    font-size: 62px;
+  }
+
+  .sales-hero::before {
+    width: 280px;
+    height: 280px;
+    right: -30px;
+  }
+
+  .sale-products-heading {
+    align-items: flex-start;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .sales-page {
+    padding-top: 18px;
+  }
+
+  .sales-back-button {
+    margin-left: 5%;
+    margin-bottom: 14px;
+
+    padding: 9px 14px;
+
+    font-size: 12px;
+  }
+
+  .sales-hero {
+    width: 92%;
+    min-height: 420px;
+
+    margin-bottom: 40px;
+
+    border-radius: 18px;
+
+    align-items: flex-start;
+  }
+
+  .sales-hero-content {
+    width: 85%;
+
+    margin-left: 7%;
+
+    padding-top: 45px;
+  }
+
+  .sales-hero-content h1 {
+    font-size: 52px;
+
+    letter-spacing: -2px;
+  }
+
+  .sales-hero-content > p {
+    max-width: 300px;
+
+    margin: 18px 0;
+
+    font-size: 12px;
+  }
+
+  .sales-offer strong {
+    font-size: 30px;
+  }
+
+  .sales-hero::before {
+    width: 260px;
+    height: 260px;
+
+    right: -75px;
+    top: 72%;
+  }
+
+  .sales-hero::after {
+    right: 10%;
+    top: 10%;
+  }
+
+  .sale-products-section {
+    width: 92%;
+  }
+
+  .sale-products-heading {
+    display: block;
+
+    margin-bottom: 22px;
+  }
+
+  .sale-products-heading h2 {
+    font-size: 30px;
+  }
+
+  .sale-products-heading p {
+    font-size: 12px;
+  }
+
+  .sale-product-count {
+    display: inline-block;
+
+    margin-top: 14px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 450px) {
+
+  .sales-hero {
+    min-height: 390px;
+  }
+
+  .sales-hero-content {
+    width: 88%;
+    margin-left: 8%;
+  }
+
+  .sales-eyebrow {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .sales-hero-content h1 {
+    font-size: 45px;
+  }
+
+  .sales-hero-content > p {
+    max-width: 245px;
+
+    font-size: 11px;
+    line-height: 1.55;
+  }
+
+  .sales-offer {
+    gap: 5px;
+    padding: 8px 13px;
+  }
+
+  .sales-offer strong {
+    font-size: 27px;
+  }
+
+  .sales-offer span {
+    font-size: 8px;
+  }
+
+  .sales-hero::before {
+    width: 210px;
+    height: 210px;
+
+    right: -80px;
+    top: 72%;
+  }
+
+  .sale-products-heading h2 {
+    font-size: 27px;
+  }
+
+  .sales-section-eyebrow {
+    font-size: 8px;
+  }
+}
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+
+  .sales-hero {
+    min-height: 360px;
+  }
+
+  .sales-hero-content {
+    padding-top: 38px;
+  }
+
+  .sales-hero-content h1 {
+    font-size: 40px;
+  }
+
+  .sales-hero-content > p {
+    max-width: 220px;
+    font-size: 10px;
+  }
+
+  .sales-offer strong {
+    font-size: 24px;
+  }
+}

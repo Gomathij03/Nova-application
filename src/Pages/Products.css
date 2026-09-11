@@ -1,0 +1,507 @@
+/* =========================================
+   PRODUCTS PAGE
+========================================= */
+
+.products-page {
+  width: 100%;
+  min-height: calc(100vh - 76px);
+
+  background: #fafaf9;
+
+  box-sizing: border-box;
+}
+
+.products-container {
+  width: min(1216px, 90%);
+
+  margin: 0 auto;
+
+  /* Reduced top spacing */
+  padding: 22px 0 50px;
+}
+/* =========================================
+   PRODUCT HEADING
+========================================= */
+
+.products-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.products-eyebrow {
+  margin: 0 0 6px;
+
+  color: #9a6534;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.products-heading h1 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 32px;
+  line-height: 1.1;
+
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.products-description {
+  margin: 6px 0 0;
+
+  color: #7b8491;
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.products-count {
+  flex-shrink: 0;
+
+  color: #6b7280;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================================
+   REDUCE SPACE BEFORE BANNER
+========================================= */
+
+.offer-banner {
+  margin-top: 16px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 760px) {
+
+  .products-heading {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding-bottom: 15px;
+  }
+
+  .products-heading h1 {
+    font-size: 28px;
+  }
+
+  .products-description {
+    font-size: 12px;
+  }
+
+  .offer-banner {
+    margin-top: 14px;
+  }
+}
+/* =========================================
+   SLIDING OFFER BANNER
+========================================= */
+
+.offer-banner {
+  position: relative;
+
+  width: 100%;
+  min-height: 250px;
+
+  /* Reduced gap between heading and banner */
+  margin: 18px 0 32px;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+
+  padding: 38px 70px;
+
+  box-sizing: border-box;
+
+  border-radius: 18px;
+
+  background: #071a35;
+  color: #ffffff;
+}
+
+/* =========================================
+   BANNER CONTENT
+========================================= */
+
+.offer-content {
+  position: relative;
+  z-index: 2;
+
+  max-width: 550px;
+}
+
+.offer-content p {
+  margin: 0 0 8px;
+
+  color: #d99a5b;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.offer-content h2 {
+  margin: 0 0 10px;
+
+  color: #ffffff;
+
+  font-size: 38px;
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  letter-spacing: -1px;
+}
+
+.offer-content span {
+  display: block;
+
+  margin-bottom: 20px;
+
+  color: #d7dde6;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.offer-content button {
+  min-height: 42px;
+
+  padding: 0 20px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #071a35;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.offer-content button:hover {
+  transform: translateY(-1px);
+
+  background: #d99a5b;
+  color: #ffffff;
+}
+
+/* =========================================
+   DECORATION
+========================================= */
+
+.offer-decoration {
+  position: absolute;
+
+  right: 90px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 190px;
+  height: 190px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+}
+
+.offer-decoration span {
+  position: absolute;
+
+  color: rgba(255, 255, 255, 0.25);
+
+  font-size: 15px;
+  font-weight: 800;
+
+  letter-spacing: 4px;
+}
+
+.offer-decoration strong {
+  color: #d99a5b;
+
+  font-size: 80px;
+  font-weight: 800;
+}
+
+/* =========================================
+   ARROWS
+========================================= */
+
+.banner-arrow {
+  position: absolute;
+
+  top: 50%;
+
+  z-index: 5;
+
+  width: 38px;
+  height: 38px;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+
+  font-size: 25px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.banner-arrow:hover {
+  background: #ffffff;
+  color: #071a35;
+}
+
+.banner-prev {
+  left: 18px;
+}
+
+.banner-next {
+  right: 18px;
+}
+
+/* =========================================
+   DOTS
+========================================= */
+
+.banner-dots {
+  position: absolute;
+
+  left: 50%;
+  bottom: 16px;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  z-index: 5;
+}
+
+.banner-dots button {
+  width: 7px;
+  height: 7px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.35);
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.banner-dots button.active {
+  width: 22px;
+
+  border-radius: 5px;
+
+  background: #ffffff;
+}
+
+/* =========================================
+   PRODUCT GRID
+========================================= */
+
+.product-grid {
+  width: 100%;
+
+  /* Reduced space below banner */
+  margin-top: 22px;
+}
+
+/* =========================================
+   BANNER RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+  .offer-banner {
+    min-height: 240px;
+
+    padding: 35px 55px;
+  }
+
+  .offer-decoration {
+    right: 55px;
+
+    width: 160px;
+    height: 160px;
+  }
+
+  .offer-decoration strong {
+    font-size: 65px;
+  }
+}
+
+/* =========================================
+   TABLET / MOBILE
+========================================= */
+
+@media (max-width: 760px) {
+  .products-container {
+    width: calc(100% - 32px);
+
+    /* Reduced mobile top spacing */
+    padding-top: 20px;
+  }
+
+  .products-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding-bottom: 14px;
+  }
+
+  .products-heading h1 {
+    font-size: 28px;
+  }
+
+  .products-count {
+    align-self: flex-start;
+  }
+
+  .offer-banner {
+    min-height: 230px;
+
+    /* Reduced spacing */
+    margin-top: 16px;
+    margin-bottom: 28px;
+
+    padding: 32px 50px;
+  }
+
+  .offer-content h2 {
+    font-size: 30px;
+  }
+
+  .offer-content span {
+    max-width: 350px;
+
+    font-size: 13px;
+  }
+
+  .offer-decoration {
+    right: 25px;
+
+    width: 130px;
+    height: 130px;
+  }
+
+  .offer-decoration strong {
+    font-size: 55px;
+  }
+
+  .offer-decoration span {
+    font-size: 10px;
+  }
+
+  .banner-prev {
+    left: 10px;
+  }
+
+  .banner-next {
+    right: 10px;
+  }
+
+  .product-grid {
+    margin-top: 18px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+  .offer-banner {
+    min-height: 250px;
+
+    margin-top: 14px;
+
+    padding: 28px 40px;
+  }
+
+  .offer-content {
+    max-width: 100%;
+  }
+
+  .offer-content h2 {
+    font-size: 26px;
+  }
+
+  .offer-content span {
+    max-width: 230px;
+  }
+
+  .offer-decoration {
+    right: -35px;
+    top: 50%;
+
+    width: 130px;
+    height: 130px;
+
+    opacity: 0.7;
+  }
+
+  .offer-decoration strong {
+    font-size: 50px;
+  }
+
+  .banner-arrow {
+    width: 32px;
+    height: 32px;
+
+    font-size: 21px;
+  }
+
+  .product-grid {
+    margin-top: 18px;
+  }
+}

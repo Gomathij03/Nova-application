@@ -1,0 +1,7 @@
+.signup-card {
+  max-width: 500px;
+}
+
+.signup-card .auth-heading {
+  margin-bottom: 28px;
+}

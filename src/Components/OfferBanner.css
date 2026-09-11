@@ -1,0 +1,935 @@
+/* =========================================
+   PREMIUM FESTIVE OFFER BANNER
+========================================= */
+
+.premium-festive-banner {
+  position: relative;
+  width: 100%;
+  height: 390px;
+  margin: 26px 0 38px;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #111827;
+  isolation: isolate;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   BACKGROUND IMAGE
+========================================= */
+
+.festive-banner-image {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  z-index: -5;
+
+  transition: transform 0.6s ease;
+}
+
+.premium-festive-banner:hover .festive-banner-image {
+  transform: scale(1.015);
+}
+
+/* =========================================
+   OVERLAY
+========================================= */
+
+.festive-banner-overlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: -4;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 12, 24, 0.92) 0%,
+      rgba(5, 12, 24, 0.78) 25%,
+      rgba(5, 12, 24, 0.30) 52%,
+      rgba(5, 12, 24, 0.10) 72%,
+      rgba(5, 12, 24, 0.42) 100%
+    );
+
+  pointer-events: none;
+}
+
+/* =========================================
+   DECORATIVE GLOW
+========================================= */
+
+.festive-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -3;
+}
+
+.festive-glow-one {
+  width: 280px;
+  height: 280px;
+
+  left: 38%;
+  top: -100px;
+
+  background: rgba(255, 190, 60, 0.18);
+  filter: blur(40px);
+}
+
+.festive-glow-two {
+  width: 260px;
+  height: 260px;
+
+  right: 4%;
+  bottom: -130px;
+
+  background: rgba(255, 150, 30, 0.18);
+  filter: blur(45px);
+}
+
+/* =========================================
+   LEFT CONTENT
+========================================= */
+
+.festive-left-content {
+  position: relative;
+
+  z-index: 10;
+
+  width: 52%;
+  height: 100%;
+
+  padding: 28px 0 30px 54px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* =========================================
+   EYEBROW
+========================================= */
+
+.festive-eyebrow {
+  margin: 0;
+
+  color: #f6c85f;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+.festive-line {
+  width: 65px;
+  height: 2px;
+
+  margin: 7px 0 9px;
+
+  background: #e9b949;
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.festive-left-content h2 {
+  position: relative;
+
+  margin: 0;
+
+  max-width: 520px;
+
+  color: #ffffff;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(44px, 4.5vw, 64px);
+
+  line-height: 0.88;
+
+  font-weight: 700;
+
+  letter-spacing: -3px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* =========================================
+   OFFER TEXT
+========================================= */
+
+.festive-left-content h3 {
+  margin: 7px 0 9px;
+
+  color: #f4c65b;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: clamp(24px, 2.7vw, 38px);
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  letter-spacing: -1px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.festive-left-content p {
+  max-width: 430px;
+
+  margin: 0 0 12px;
+
+  color: rgba(255, 255, 255, 0.88);
+
+  font-size: 11px;
+
+  line-height: 1.45;
+}
+
+/* =========================================
+   FEATURES
+========================================= */
+
+.festive-features {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 13px;
+}
+
+.festive-feature {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+.festive-feature span {
+  width: 25px;
+  height: 25px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(244, 198, 91, 0.7);
+
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.25);
+
+  color: #f4c65b;
+
+  backdrop-filter: blur(4px);
+}
+
+.festive-feature svg {
+  width: 11px;
+  height: 11px;
+}
+
+.festive-feature small {
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 7px;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+/* =========================================
+   SHOP BUTTON
+========================================= */
+
+.festive-shop-button {
+  position: relative;
+
+  z-index: 30;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  min-height: 45px;
+
+  padding: 0 20px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e8b33d,
+      #c98617
+    );
+
+  color: #241707;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.28);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+
+  flex-shrink: 0;
+}
+
+.festive-shop-button:hover {
+  transform: translateY(-2px);
+
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.38);
+}
+
+.festive-shop-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.festive-shop-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* =========================================
+   CENTER OFFER BADGE
+========================================= */
+
+.festive-center-badge {
+  position: absolute;
+
+  z-index: 12;
+
+  left: 61%;
+  top: 50%;
+
+  transform: translate(-50%, -50%) rotate(-4deg);
+
+  width: 142px;
+  height: 170px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 248, 225, 0.96),
+      rgba(235, 211, 165, 0.94)
+    );
+
+  color: #6d4310;
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.28);
+
+  backdrop-filter: blur(7px);
+}
+
+.festive-center-badge::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border: 1px solid rgba(150, 101, 24, 0.45);
+
+  border-radius: 11px;
+
+  pointer-events: none;
+}
+
+.badge-small {
+  color: #93601a;
+
+  font-size: 8px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.5px;
+}
+
+.badge-divider {
+  width: 40px;
+  height: 1px;
+
+  margin: 8px 0;
+
+  background: #bd8427;
+}
+
+.badge-up {
+  color: #674313;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+.festive-center-badge strong {
+  margin: 2px 0;
+
+  color: #9a5d10;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 51px;
+
+  line-height: 0.9;
+
+  font-weight: 700;
+}
+
+.badge-off {
+  margin-top: 4px;
+
+  color: #36250e;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+}
+
+.badge-star {
+  margin-top: 9px;
+
+  color: #b57a1c;
+}
+
+.badge-star svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* =========================================
+   RIGHT PANEL
+========================================= */
+
+.festive-right-panel {
+  position: absolute;
+
+  z-index: 12;
+
+  right: 32px;
+  top: 50%;
+
+  width: 150px;
+
+  transform: translateY(-50%);
+
+  padding: 22px 17px;
+
+  border-radius: 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  background: rgba(20, 25, 32, 0.35);
+
+  color: #ffffff;
+
+  text-align: center;
+
+  backdrop-filter: blur(9px);
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.2);
+
+  box-sizing: border-box;
+}
+
+.right-panel-line {
+  width: 42px;
+  height: 1px;
+
+  margin: 0 auto 9px;
+
+  background: #f0c45a;
+}
+
+.festive-right-panel > span {
+  display: block;
+
+  margin-bottom: 11px;
+
+  color: #f0c45a;
+
+  font-size: 7px;
+
+  font-weight: 900;
+
+  letter-spacing: 1.7px;
+}
+
+.festive-right-panel strong {
+  display: block;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 25px;
+
+  line-height: 1.05;
+
+  font-weight: 700;
+}
+
+.festive-right-panel p {
+  margin: 11px 0 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 9px;
+
+  line-height: 1.5;
+}
+
+.right-panel-decoration {
+  margin-top: 10px;
+
+  color: #f1c65e;
+
+  font-size: 18px;
+}
+
+/* =========================================
+   ARROWS
+========================================= */
+
+.festive-arrow {
+  position: absolute;
+
+  z-index: 50;
+
+  top: 50%;
+
+  width: 38px;
+  height: 38px;
+
+  transform: translateY(-50%);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  border-radius: 50%;
+
+  background: rgba(10, 20, 30, 0.4);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(8px);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.festive-arrow:hover {
+  background: rgba(255, 255, 255, 0.28);
+
+  transform:
+    translateY(-50%)
+    scale(1.08);
+}
+
+.festive-arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.festive-arrow-left {
+  left: 14px;
+}
+
+.festive-arrow-right {
+  right: 14px;
+}
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.festive-navigation {
+  position: absolute;
+
+  z-index: 50;
+
+  left: 50%;
+  bottom: 12px;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(8px);
+}
+
+.festive-dots {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+.festive-dot {
+  width: 7px;
+  height: 7px;
+
+  padding: 0;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.45);
+
+  cursor: pointer;
+
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.festive-dot.active {
+  width: 22px;
+
+  border-radius: 10px;
+
+  background: #f1c55b;
+}
+
+.festive-counter {
+  color: rgba(255, 255, 255, 0.85);
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 950px) {
+
+  .premium-festive-banner {
+    height: 380px;
+  }
+
+  .festive-left-content {
+    width: 58%;
+    height: 100%;
+
+    padding-left: 45px;
+    padding-top: 25px;
+    padding-bottom: 28px;
+  }
+
+  .festive-left-content h2 {
+    font-size: 52px;
+  }
+
+  .festive-left-content h3 {
+    font-size: 32px;
+  }
+
+  .festive-center-badge {
+    left: 65%;
+
+    width: 120px;
+    height: 150px;
+  }
+
+  .festive-center-badge strong {
+    font-size: 43px;
+  }
+
+  .festive-right-panel {
+    display: none;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .premium-festive-banner {
+    height: 390px;
+
+    border-radius: 18px;
+  }
+
+  .festive-banner-overlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(5, 12, 24, 0.94) 0%,
+        rgba(5, 12, 24, 0.82) 55%,
+        rgba(5, 12, 24, 0.35) 100%
+      );
+  }
+
+  .festive-left-content {
+    width: 75%;
+    height: 100%;
+
+    padding: 38px 30px;
+
+    justify-content: center;
+  }
+
+  .festive-left-content h2 {
+    font-size: 44px;
+
+    letter-spacing: -2px;
+  }
+
+  .festive-left-content h3 {
+    font-size: 25px;
+  }
+
+  .festive-left-content p {
+    max-width: 260px;
+
+    font-size: 11px;
+  }
+
+  .festive-features {
+    flex-wrap: wrap;
+
+    max-width: 280px;
+
+    gap: 7px;
+  }
+
+  .festive-center-badge {
+    left: auto;
+    right: 18px;
+
+    width: 98px;
+    height: 128px;
+  }
+
+  .festive-center-badge strong {
+    font-size: 36px;
+  }
+
+  .badge-off {
+    font-size: 11px;
+  }
+
+  .festive-shop-button {
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    font-size: 10px;
+  }
+
+  .festive-arrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .festive-arrow-left {
+    left: 7px;
+  }
+
+  .festive-arrow-right {
+    right: 7px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 450px) {
+
+  .premium-festive-banner {
+    height: 370px;
+  }
+
+  .festive-left-content {
+    width: 100%;
+    height: 100%;
+
+    padding: 32px 27px;
+  }
+
+  .festive-left-content h2 {
+    font-size: 40px;
+  }
+
+  .festive-left-content h3 {
+    font-size: 23px;
+  }
+
+  .festive-left-content p {
+    max-width: 220px;
+  }
+
+  .festive-features {
+    max-width: 230px;
+  }
+
+  .festive-feature:nth-child(3) {
+    display: none;
+  }
+
+  .festive-center-badge {
+    right: 12px;
+
+    width: 88px;
+    height: 115px;
+  }
+
+  .festive-center-badge strong {
+    font-size: 31px;
+  }
+
+  .badge-small {
+    font-size: 6px;
+  }
+
+  .badge-up {
+    font-size: 7px;
+  }
+
+  .badge-off {
+    font-size: 9px;
+  }
+
+  .festive-shop-button {
+    min-height: 40px;
+
+    padding: 0 14px;
+  }
+}
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+
+  .premium-festive-banner {
+    height: 350px;
+  }
+
+  .festive-left-content {
+    height: 100%;
+
+    padding: 28px 24px;
+  }
+
+  .festive-left-content h2 {
+    font-size: 35px;
+  }
+
+  .festive-left-content h3 {
+    font-size: 20px;
+  }
+
+  .festive-left-content p {
+    font-size: 10px;
+  }
+
+  .festive-center-badge {
+    right: 7px;
+
+    width: 76px;
+    height: 101px;
+  }
+
+  .festive-center-badge strong {
+    font-size: 27px;
+  }
+
+  .festive-shop-button {
+    min-height: 38px;
+
+    font-size: 9px;
+  }
+}
