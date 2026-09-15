@@ -6,6 +6,9 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import Cart from "./Pages/Cart";
 import Checkout from "./Pages/Checkout";
+import Home from "./Pages/Home";
+import Footer from "./Components/Footer";
+import ProductDetails from "./Pages/ProductDetails";
 
 import { AuthProvider, useAuth } from "./Context/AuthContext";
 import { CartProvider, useCart } from "./Context/CartContext";
@@ -19,6 +22,8 @@ import FestiveOffers from "./Pages/FestiveOffers";
 import DiscountDays from "./Pages/DiscountDays";
 import MegaSale from "./Pages/MegaSale";
 
+import ForgotPassword from "./Pages/ForgotPassword";
+import Wishlist from "./Pages/Wishlist";
 import "./App.css";
 
 
@@ -69,7 +74,7 @@ function AppContent() {
   const [isPrime, setIsPrime] = useState(() => {
     return localStorage.getItem("novaPrime") === "true";
   });
-
+const [selectedProduct, setSelectedProduct] = useState(null);
 
   /* ================= LOGIN ================= */
 
@@ -78,13 +83,17 @@ function AppContent() {
     setCurrentPage("products");
   };
 
-
+  
   /* ================= SIGNUP ================= */
 
   const handleSignup = (newUser) => {
     signup(newUser);
     setCurrentPage("products");
   };
+
+  const handleForgotPassword = () => {
+  setCurrentPage("forgot-password");
+};
 
 
   /* ================= LOGOUT ================= */
@@ -99,6 +108,7 @@ function AppContent() {
 
     setCurrentPage("login");
   };
+
 
 
   /* ================= NAVIGATION ================= */
@@ -165,13 +175,46 @@ function AppContent() {
       return;
     }
 
-    setCheckoutProduct({
-      ...product,
-      quantity: 1,
-    });
+ setCheckoutProduct({
+  ...product,
+  quantity: product.quantity || 1,
+});
 
     setCurrentPage("checkout");
   };
+  
+ const handleAddToWishlist = (product) => {
+  if (!isLoggedIn) {
+    setCurrentPage("login");
+    return;
+  }
+
+  const alreadyExists = wishlist.some(
+    (item) => item.id === product.id
+  );
+
+  if (alreadyExists) return;
+
+  const updatedWishlist = [...wishlist, product];
+
+  setWishlist(updatedWishlist);
+  localStorage.setItem(
+    "novaWishlist",
+    JSON.stringify(updatedWishlist)
+  );
+};
+
+const handleRemoveFromWishlist = (productId) => {
+  const updatedWishlist = wishlist.filter(
+    (item) => item.id !== productId
+  );
+
+  setWishlist(updatedWishlist);
+  localStorage.setItem(
+    "novaWishlist",
+    JSON.stringify(updatedWishlist)
+  );
+};
 
 
   /* ================= CART CHECKOUT ================= */
@@ -193,70 +236,113 @@ function AppContent() {
   const handleCheckoutBack = () => {
     setCurrentPage("cart");
   };
-
+ const [wishlist, setWishlist] = useState(() => {
+  const savedWishlist = localStorage.getItem("novaWishlist");
+  return savedWishlist ? JSON.parse(savedWishlist) : [];
+});
 
   /* ================= ORDER PLACED ================= */
+const handleOrderPlaced = (orderData) => {
 
-  const handleOrderPlaced = () => {
+  const items = checkoutProduct
+    ? [checkoutProduct]
+    : cart;
 
-    const items = checkoutProduct
-      ? [checkoutProduct]
-      : cart;
-
-    const subtotal = items.reduce(
-      (total, item) =>
-        total +
-        Number(item.price || 0) *
+  const subtotal = items.reduce(
+    (total, item) =>
+      total +
+      Number(item.price || 0) *
         Number(item.quantity || 1),
-      0
-    );
+    0
+  );
 
-    const newOrder = {
+  const newOrder = {
 
-      id: Date.now(),
+    id: Date.now(),
 
-      items,
+    items,
 
+    subtotal,
+
+    total:
+      orderData?.finalTotal ||
       subtotal,
 
-      total: subtotal,
+    status: "Confirmed",
 
-      status: "Confirmed",
+    paymentMethod:
+      orderData?.paymentMethod === "cod"
+        ? "Cash on Delivery"
+        : orderData?.paymentMethod === "upi"
+        ? "UPI"
+        : orderData?.paymentMethod === "card"
+        ? "Card"
+        : orderData?.paymentMethod === "wallet"
+        ? "Wallet"
+        : "Cash on Delivery",
 
-      paymentMethod: "Cash on Delivery",
+    paymentStatus:
+      orderData?.paymentMethod === "cod"
+        ? "Pending"
+        : "Paid",
 
-      paymentStatus: "Pending",
+    /* ================= CUSTOMER DETAILS ================= */
 
-      address: {
+    address: {
 
-        name: user?.name || "Customer",
+      name:
+        orderData?.customerDetails?.name ||
+        user?.name ||
+        "Customer",
 
-        email: user?.email || "",
+      phone:
+        orderData?.customerDetails?.phone ||
+        "",
 
-      },
+      email:
+        orderData?.customerDetails?.email ||
+        user?.email ||
+        "",
 
-    };
+      address:
+        orderData?.customerDetails?.address ||
+        "",
 
-    const updatedOrders = [
-      newOrder,
-      ...orders,
-    ];
+      city:
+        orderData?.customerDetails?.city ||
+        "",
 
-    setOrders(updatedOrders);
+      state:
+        orderData?.customerDetails?.state ||
+        "",
 
-    localStorage.setItem(
-      "novaOrders",
-      JSON.stringify(updatedOrders)
-    );
+      pincode:
+        orderData?.customerDetails?.pincode ||
+        "",
 
-    clearCart();
+    },
 
-    setCheckoutProduct(null);
-
-    setCurrentPage("orders");
   };
 
+  const updatedOrders = [
+    newOrder,
+    ...orders,
+  ];
 
+  setOrders(updatedOrders);
+
+  localStorage.setItem(
+    "novaOrders",
+    JSON.stringify(updatedOrders)
+  );
+
+  clearCart();
+
+  setCheckoutProduct(null);
+
+  setCurrentPage("orders");
+};
+  
   /* ================= RETURN ORDER ================= */
 
   const handleOrderReturned = (
@@ -380,13 +466,24 @@ if (isLoading) {
       {currentPage === "login" && (
 
         <Login
-          onLogin={handleLogin}
-          onSwitchToSignup={() =>
-            handleNavigation("signup")
-          }
-        />
+  onLogin={handleLogin}
+  onSwitchToSignup={() =>
+    handleNavigation("signup")
+  }
+  onForgotPassword={handleForgotPassword}
+/>
 
       )}
+      {/* ================= FORGOT PASSWORD ================= */}
+
+{currentPage === "forgot-password" && (
+  <ForgotPassword
+    onBackToLogin={() =>
+      setCurrentPage("login")
+    }
+  />
+)}
+
 
 
       {/* ================= SIGNUP ================= */}
@@ -402,28 +499,38 @@ if (isLoading) {
 
       )}
 
+      {currentPage === "home" && isLoggedIn && (
+  <Home
+    onNavigate={handleNavigation}
+    onAddToCart={handleAddToCart}
+    onBuyNow={handleBuyNow}
+
+    onViewDetails={(product) => {
+  setSelectedProduct(product);
+  setCurrentPage("product-details");
+}}
+  />
+)}
+
 
       {/* ================= PRODUCTS ================= */}
 
       {currentPage === "products" &&
         isLoggedIn && (
 
-          <Products
-            searchTerm={searchTerm}
-
-            onAddToCart={handleAddToCart}
-
-            onBuyNow={handleBuyNow}
-
-            onViewDetails={(product) => {
-              console.log(
-                "Product details:",
-                product
-              );
-            }}
-
-            onOfferClick={handleOfferClick}
-          />
+         <Products
+  searchTerm={searchTerm}
+  onAddToCart={handleAddToCart}
+  onBuyNow={handleBuyNow}
+  onViewDetails={(product) => {
+  setSelectedProduct(product);
+  setCurrentPage("product-details");
+}}
+  onOfferClick={handleOfferClick}
+  wishlist={wishlist}
+  onAddToWishlist={handleAddToWishlist}
+  onRemoveFromWishlist={handleRemoveFromWishlist}
+/>
 
         )}
 
@@ -448,7 +555,29 @@ if (isLoading) {
           />
 
         )}
-
+        {currentPage === "wishlist" && isLoggedIn && (
+  <Wishlist
+    wishlist={wishlist}
+    onRemoveFromWishlist={handleRemoveFromWishlist}
+    onAddToCart={handleAddToCart}
+    onBuyNow={handleBuyNow}
+    onViewDetails={(product) =>
+      console.log("Wishlist product details:", product)
+    }
+    onNavigate={handleNavigation}
+  />
+)}
+{currentPage === "product-details" && isLoggedIn && (
+  <ProductDetails
+    product={selectedProduct}
+    onBack={() => setCurrentPage("products")}
+    onAddToCart={handleAddToCart}
+    onBuyNow={handleBuyNow}
+    wishlist={wishlist}
+    onAddToWishlist={handleAddToWishlist}
+    onRemoveFromWishlist={handleRemoveFromWishlist}
+  />
+)}
 
       {/* ================= CHECKOUT ================= */}
 
@@ -567,17 +696,17 @@ if (isLoading) {
       {currentPage === "festive-offers" &&
         isLoggedIn && (
 
-          <FestiveOffers
-            onNavigate={handleNavigation}
-            onAddToCart={handleAddToCart}
-            onBuyNow={handleBuyNow}
-            onViewDetails={(product) => {
-              console.log(
-                "Festive product:",
-                product
-              );
-            }}
-          />
+        <FestiveOffers
+  onNavigate={handleNavigation}
+  onAddToCart={handleAddToCart}
+  onBuyNow={handleBuyNow}
+  onViewDetails={(product) =>
+    console.log("Festive product:", product)
+  }
+  wishlist={wishlist}
+  onAddToWishlist={handleAddToWishlist}
+  onRemoveFromWishlist={handleRemoveFromWishlist}
+/>
 
         )}
 
@@ -588,16 +717,16 @@ if (isLoading) {
         isLoggedIn && (
 
           <DiscountDays
-            onNavigate={handleNavigation}
-            onAddToCart={handleAddToCart}
-            onBuyNow={handleBuyNow}
-            onViewDetails={(product) => {
-              console.log(
-                "Discount product:",
-                product
-              );
-            }}
-          />
+  onNavigate={handleNavigation}
+  onAddToCart={handleAddToCart}
+  onBuyNow={handleBuyNow}
+  onViewDetails={(product) =>
+    console.log("Discount product:", product)
+  }
+  wishlist={wishlist}
+  onAddToWishlist={handleAddToWishlist}
+  onRemoveFromWishlist={handleRemoveFromWishlist}
+/>
 
         )}
 
@@ -608,19 +737,19 @@ if (isLoading) {
         isLoggedIn && (
 
           <MegaSale
-            onNavigate={handleNavigation}
-            onAddToCart={handleAddToCart}
-            onBuyNow={handleBuyNow}
-            onViewDetails={(product) => {
-              console.log(
-                "Mega sale product:",
-                product
-              );
-            }}
-          />
+  onNavigate={handleNavigation}
+  onAddToCart={handleAddToCart}
+  onBuyNow={handleBuyNow}
+  onViewDetails={(product) =>
+    console.log("Mega product:", product)
+  }
+  wishlist={wishlist}
+  onAddToWishlist={handleAddToWishlist}
+  onRemoveFromWishlist={handleRemoveFromWishlist}
+/>
 
         )}
-
+<Footer onNavigate={handleNavigation} />
     </div>
   );
 }

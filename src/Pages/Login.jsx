@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { FiEye, FiEyeOff, FiMail, FiLock } from "react-icons/fi";
 import "./Login.css";
 
-function Login({ onLogin, onSwitchToSignup }) {
+function Login({
+  onLogin,
+  onSwitchToSignup,
+  onForgotPassword,
+}) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -41,7 +45,8 @@ function Login({ onLogin, onSwitchToSignup }) {
 
     const user = savedUsers.find(
       (item) =>
-        item.email.toLowerCase() === formData.email.toLowerCase() &&
+        item.email.toLowerCase() ===
+          formData.email.toLowerCase() &&
         item.password === formData.password
     );
 
@@ -50,7 +55,10 @@ function Login({ onLogin, onSwitchToSignup }) {
       return;
     }
 
-    localStorage.setItem("novaCurrentUser", JSON.stringify(user));
+    localStorage.setItem(
+      "novaCurrentUser",
+      JSON.stringify(user)
+    );
 
     if (onLogin) {
       onLogin(user);
@@ -60,22 +68,36 @@ function Login({ onLogin, onSwitchToSignup }) {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-brand">NOVA</div>
+
+        <div className="auth-brand">
+          NOVA
+        </div>
 
         <div className="auth-heading">
-          <p className="auth-eyebrow">WELCOME BACK</p>
+          <p className="auth-eyebrow">
+            WELCOME BACK
+          </p>
 
-          <h1>Sign in to NOVA</h1>
+          <h1>
+            Sign in to NOVA
+          </h1>
 
           <p>
-            Continue your shopping journey and discover something
-            you’ll love.
+            Continue your shopping journey and discover
+            something you’ll love.
           </p>
         </div>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <form
+          className="auth-form"
+          onSubmit={handleSubmit}
+        >
+
+          {/* Email */}
           <div className="form-group">
-            <label htmlFor="email">Email address</label>
+            <label htmlFor="email">
+              Email address
+            </label>
 
             <div className="input-wrapper">
               <FiMail className="input-icon" />
@@ -92,8 +114,11 @@ function Login({ onLogin, onSwitchToSignup }) {
             </div>
           </div>
 
+          {/* Password */}
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">
+              Password
+            </label>
 
             <div className="input-wrapper">
               <FiLock className="input-icon" />
@@ -101,7 +126,11 @@ function Login({ onLogin, onSwitchToSignup }) {
               <input
                 id="password"
                 name="password"
-                type={showPassword ? "text" : "password"}
+                type={
+                  showPassword
+                    ? "text"
+                    : "password"
+                }
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
@@ -111,33 +140,68 @@ function Login({ onLogin, onSwitchToSignup }) {
               <button
                 type="button"
                 className="password-toggle"
-                onClick={() => setShowPassword((previous) => !previous)}
+                onClick={() =>
+                  setShowPassword(
+                    (previous) => !previous
+                  )
+                }
                 aria-label={
-                  showPassword ? "Hide password" : "Show password"
+                  showPassword
+                    ? "Hide password"
+                    : "Show password"
                 }
               >
-                {showPassword ? <FiEyeOff /> : <FiEye />}
+                {showPassword ? (
+                  <FiEyeOff />
+                ) : (
+                  <FiEye />
+                )}
               </button>
             </div>
+
+            {/* Forgot Password */}
+            <button
+              type="button"
+              className="forgot-password-link"
+              onClick={onForgotPassword}
+            >
+              Forgot Password?
+            </button>
           </div>
 
-          {error && <p className="auth-error">{error}</p>}
+          {/* Error */}
+          {error && (
+            <p className="auth-error">
+              {error}
+            </p>
+          )}
 
-          <button type="submit" className="auth-submit">
+          {/* Sign In */}
+          <button
+            type="submit"
+            className="auth-submit"
+          >
             Sign In
           </button>
+
         </form>
 
+        {/* Divider */}
         <div className="auth-divider">
           <span>OR</span>
         </div>
 
+        {/* Signup */}
         <p className="auth-switch">
           Don’t have an account?{" "}
-          <button type="button" onClick={onSwitchToSignup}>
+          <button
+            type="button"
+            onClick={onSwitchToSignup}
+          >
             Create account
           </button>
         </p>
+
       </div>
     </div>
   );

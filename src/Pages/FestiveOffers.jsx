@@ -4,10 +4,13 @@ import saleProducts from "../Data/SaleProducts";
 import "./SalesPage.css";
 
 function FestiveOffers({
+  onNavigate,
   onAddToCart,
   onBuyNow,
   onViewDetails,
-  onNavigate,
+  wishlist = [],
+  onAddToWishlist,
+  onRemoveFromWishlist,
 }) {
   const festiveProducts = saleProducts.festive;
 
@@ -69,12 +72,15 @@ function FestiveOffers({
           </span>
         </div>
 
-        <ProductGrid
-          products={festiveProducts}
-          onAddToCart={onAddToCart}
-          onBuyNow={onBuyNow}
-          onViewDetails={onViewDetails}
-        />
+       <ProductGrid
+  products={festiveProducts}
+  onAddToCart={onAddToCart}
+  onBuyNow={onBuyNow}
+  onViewDetails={onViewDetails}
+  wishlist={wishlist}
+  onAddToWishlist={onAddToWishlist}
+  onRemoveFromWishlist={onRemoveFromWishlist}
+/>
 
       </section>
 

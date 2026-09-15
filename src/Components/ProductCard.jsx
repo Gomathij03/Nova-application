@@ -1,170 +1,130 @@
 import React from "react";
-import {
-  FiHeart,
-  FiShoppingBag,
-  FiStar,
-  FiZap,
-} from "react-icons/fi";
-import "./ProductCard.css";
+import { FiShoppingBag, FiZap } from "react-icons/fi";
 
 function ProductCard({
   product,
   onAddToCart,
   onViewDetails,
   onBuyNow,
+  wishlist = [],
+  onAddToWishlist,
+  onRemoveFromWishlist,
+  isWishlistPage = false,
 }) {
-  if (!product) return null;
+  const premiumProductIds = [
+    6, 7, 9, 10, 17, 19, 20,
+    25, 27, 29, 30, 36, 37,
+    40, 43, 46, 47, 49, 50,
+  ];
 
-  const {
-    name,
-    brand,
-    price,
-    image,
-    category,
-    rating,
-    reviews,
-    originalPrice,
-    discount,
-    isNew,
-  } = product;
+  const isPremiumProduct = premiumProductIds.includes(product.id);
 
-  const formatPrice = (value) =>
-    Number(value || 0).toLocaleString("en-IN");
+  const isWishlisted = wishlist.some(
+    (item) => item.id === product.id
+  );
 
-  const handleAddToCart = (e) => {
-    e.preventDefault();
+  const handleWishlistClick = (e) => {
     e.stopPropagation();
 
-    if (onAddToCart) {
-      onAddToCart(product);
+    if (isWishlisted) {
+      if (onRemoveFromWishlist) {
+        onRemoveFromWishlist(product.id);
+      }
+    } else {
+      if (onAddToWishlist) {
+        onAddToWishlist(product);
+      }
     }
   };
-
-  const handleBuyNow = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (onBuyNow) {
-      onBuyNow(product);
-    }
-  };
-
-  const handleViewDetails = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (onViewDetails) {
-      onViewDetails(product);
-    }
-  };
-
+{isWishlistPage && (
+  <button
+    type="button"
+    className="wishlist-remove-button"
+    onClick={() => onRemoveFromWishlist(product.id)}
+  >
+    Remove from Wishlist
+  </button>
+)}
   return (
-    <article className="product-card">
-
-      {/* IMAGE */}
-
-      <div className="product-image-container">
-
-        {isNew && (
-          <span className="product-new">
-            NEW
-          </span>
-        )}
-
-        {discount > 0 && (
-          <span className="product-discount">
-            {discount}% OFF
-          </span>
-        )}
+    <div className="product-card">
+      <div
+        className="product-image-container"
+        onClick={() => onViewDetails(product)}
+      >
+        <img
+          src={product.image}
+          alt={product.name}
+          className="product-image"
+        />
 
         <button
           type="button"
-          className="wishlist-button"
-          aria-label={`Add ${name} to wishlist`}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
+          className={`wishlist-button ${
+            isWishlisted ? "wishlisted" : ""
+          }`}
+          onClick={handleWishlistClick}
+          aria-label={
+            isWishlisted
+              ? "Remove from wishlist"
+              : "Add to wishlist"
+          }
         >
-          <FiHeart />
-        </button>
-
-        <button
-          type="button"
-          className="product-image-button"
-          onClick={handleViewDetails}
-          aria-label={`View ${name}`}
-        >
-          {image ? (
-            <img
-              src={image}
-              alt={name}
-              className="product-image"
-            />
-          ) : (
-            <div className="product-image-placeholder">
-              <FiShoppingBag />
-            </div>
-          )}
+          {isWishlisted ? "♥" : "♡"}
         </button>
       </div>
 
-      {/* DETAILS */}
-
       <div className="product-info">
+        {isPremiumProduct && (
+          <div className="product-premium-row">
+            <span className="premium-product-badge">
+              👑 Premium
+            </span>
 
-        <p className="product-brand">
-          {brand}
-        </p>
-
-        <button
-          type="button"
-          className="product-name"
-          onClick={handleViewDetails}
-        >
-          {name}
-        </button>
+            <span className="tomorrow-delivery-badge">
+              🚚 Get it by <strong>Tomorrow</strong>
+            </span>
+          </div>
+        )}
 
         <p className="product-category">
-          {category}
+          {product.category}
         </p>
 
-        {/* RATING */}
+        <h2>{product.name}</h2>
+
+        <p className="product-brand">
+          {product.brand}
+        </p>
+
+        <p className="product-color">
+          {product.color}
+        </p>
 
         <div className="product-rating">
-          <FiStar className="rating-icon" />
-
-          <span>
-            {Number(rating || 0).toFixed(1)}
-          </span>
-
-          <span className="review-count">
-            ({reviews || 0})
-          </span>
+          ⭐ {product.rating}
         </div>
 
-        {/* PRICE */}
-
         <div className="product-price-row">
-          <span className="product-price">
-            ₹{formatPrice(price)}
-          </span>
+          <h3>₹{product.price}</h3>
 
-          {originalPrice && (
-            <span className="product-original-price">
-              ₹{formatPrice(originalPrice)}
+          {product.originalPrice && (
+            <span className="original-price">
+              ₹{product.originalPrice}
+            </span>
+          )}
+
+          {product.discount && (
+            <span className="discount-price">
+              {product.discount}% OFF
             </span>
           )}
         </div>
 
-        {/* ACTION BUTTONS */}
-
         <div className="product-actions">
-
           <button
             type="button"
-            className="add-cart-button"
-            onClick={handleAddToCart}
+            className="add-cart-btn"
+            onClick={() => onAddToCart(product)}
           >
             <FiShoppingBag />
             <span>Add to Cart</span>
@@ -172,17 +132,15 @@ function ProductCard({
 
           <button
             type="button"
-            className="buy-now-button"
-            onClick={handleBuyNow}
+            className="details-btn"
+            onClick={() => onBuyNow(product)}
           >
             <FiZap />
             <span>Buy Now</span>
           </button>
-
         </div>
-
       </div>
-    </article>
+    </div>
   );
 }
 

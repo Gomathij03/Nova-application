@@ -1,239 +1,334 @@
-import React, { useMemo, useState } from "react";
-import Header from "../Components/Header";
-import SmartSearch from "../Components/SmartSearch";
-import TopFilters from "../Components/TopFilters";
-import ProductGrid from "../Components/ProductGrid";
-import { products } from "../data/products";
+import React from "react";
+import { FiArrowRight, FiShoppingBag, FiStar, FiTag } from "react-icons/fi";
+import products from "../Data/Products";
 import "./Home.css";
 
 function Home({
+  onNavigate,
   onAddToCart,
-  onProductClick,
+  onBuyNow,
+  onViewDetails,
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const featuredProducts = products.slice(0, 8);
 
-  const [selectedCategory, setSelectedCategory] =
-    useState("All Categories");
-
-  const [selectedBrand, setSelectedBrand] =
-    useState("All Brands");
-
-  const [selectedGender, setSelectedGender] =
-    useState("All");
-
-  const [selectedPrice, setSelectedPrice] =
-    useState("all");
-
-  const filteredProducts = useMemo(() => {
-    let result = [...products];
-
-    /* SEARCH */
-    if (searchTerm.trim()) {
-      const search = searchTerm
-        .trim()
-        .toLowerCase();
-
-      result = result.filter((product) => {
-        const name = String(
-          product.name || ""
-        ).toLowerCase();
-
-        const brand = String(
-          product.brand || ""
-        ).toLowerCase();
-
-        const category = String(
-          product.category || ""
-        ).toLowerCase();
-
-        const gender = String(
-          product.gender || ""
-        ).toLowerCase();
-
-        return (
-          name.includes(search) ||
-          brand.includes(search) ||
-          category.includes(search) ||
-          gender.includes(search)
-        );
-      });
-    }
-
-    /* CATEGORY */
-    if (
-      selectedCategory &&
-      selectedCategory !== "All Categories"
-    ) {
-      result = result.filter(
+  const categories = [
+    {
+      name: "Men",
+      description: "Explore men's fashion",
+      image: products.find((product) => product.gender === "Men")?.image,
+    },
+    {
+      name: "Women",
+      description: "Discover women's collection",
+      image: products.find((product) => product.gender === "Women")?.image,
+    },
+    {
+      name: "Shoes",
+      description: "Step into new styles",
+      image: products.find(
         (product) =>
-          product.category === selectedCategory
-      );
-    }
-
-    /* BRAND */
-    if (
-      selectedBrand &&
-      selectedBrand !== "All Brands"
-    ) {
-      result = result.filter(
+          String(product.category).toLowerCase().includes("shoe")
+      )?.image,
+    },
+    {
+      name: "Watches",
+      description: "Classic & modern watches",
+      image: products.find(
         (product) =>
-          product.brand === selectedBrand
-      );
-    }
-
-    /* GENDER */
-    if (
-      selectedGender &&
-      selectedGender !== "All"
-    ) {
-      result = result.filter(
-        (product) =>
-          product.gender === selectedGender
-      );
-    }
-
-    /* PRICE */
-    if (selectedPrice !== "all") {
-      result = result.filter((product) => {
-        const price = Number(product.price) || 0;
-
-        switch (selectedPrice) {
-          case "under-50":
-            return price < 50;
-
-          case "50-100":
-            return price >= 50 && price <= 100;
-
-          case "100-200":
-            return price > 100 && price <= 200;
-
-          case "above-200":
-            return price > 200;
-
-          default:
-            return true;
-        }
-      });
-    }
-
-    return result;
-  }, [
-    searchTerm,
-    selectedCategory,
-    selectedBrand,
-    selectedGender,
-    selectedPrice,
-  ]);
-
-  const handleClearFilters = () => {
-    setSelectedCategory("All Categories");
-    setSelectedBrand("All Brands");
-    setSelectedGender("All");
-    setSelectedPrice("all");
-  };
-
-  const handleSearch = (value) => {
-    setSearchTerm(value);
-  };
+          String(product.category).toLowerCase().includes("watch")
+      )?.image,
+    },
+  ];
 
   return (
-    <div className="home-page">
+    <main className="home-page">
 
-      {/* NAVBAR */}
-      <Header
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
-
-      {/* HERO */}
+      {/* =========================
+          HERO SECTION
+      ========================= */}
       <section className="home-hero">
-        <div className="hero-content">
-
-          <span className="hero-label">
-            NEW COLLECTION
-          </span>
+        <div className="home-hero-content">
+          <p className="home-eyebrow">WELCOME TO NOVA</p>
 
           <h1>
-            Find Something
+            Discover Your
             <br />
-            <span>Worth Wearing.</span>
+            <span>Perfect Style</span>
           </h1>
 
-          <p>
-            Discover thoughtfully selected products
-            designed to fit your style and everyday life.
+          <p className="home-hero-description">
+            Explore a curated collection of fashion, accessories,
+            footwear and more. Find products that match your style.
           </p>
 
-          <button
-            type="button"
-            className="hero-button"
-            onClick={() =>
-              document
-                .getElementById("products")
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                })
-            }
-          >
-            Explore Collection
-          </button>
+          <div className="home-hero-actions">
+            <button
+              type="button"
+              className="home-primary-button"
+              onClick={() => onNavigate("products")}
+            >
+              <span>Shop Now</span>
+              <FiArrowRight />
+            </button>
 
+            <button
+              type="button"
+              className="home-secondary-button"
+              onClick={() => onNavigate("premium")}
+            >
+              <FiStar />
+              <span>Explore Premium</span>
+            </button>
+          </div>
+
+          <div className="home-hero-features">
+            <div>
+              <FiShoppingBag />
+              <span>Wide Collection</span>
+            </div>
+
+            <div>
+              <FiTag />
+              <span>Special Offers</span>
+            </div>
+
+            <div>
+              <FiStar />
+              <span>Premium Benefits</span>
+            </div>
+          </div>
         </div>
 
-        <div className="hero-decoration">
-          <div className="hero-circle">
-            <span>N</span>
+        <div className="home-hero-visual">
+          <div className="home-hero-card">
+            <img
+              src={featuredProducts[5]?.image}
+              alt="NOVA Featured Product"
+            />
+
+            <div className="home-floating-card">
+              <span className="floating-card-icon">
+                <FiStar />
+              </span>
+
+              <div>
+                <strong>Featured Collection</strong>
+                <small>Explore NOVA styles</small>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* SMART SEARCH */}
-      <section className="search-section-wrapper">
-        <SmartSearch
-          products={products}
-          value={searchTerm}
-          onChange={setSearchTerm}
-          onSearch={handleSearch}
-          onProductClick={onProductClick}
-        />
+      {/* =========================
+          SHOP BY CATEGORY
+      ========================= */}
+      <section className="home-section">
+        <div className="home-section-heading">
+          <div>
+            <p className="home-section-eyebrow">EXPLORE</p>
+            <h2>Shop by Category</h2>
+            <p>
+              Find your favourite products from our collections.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="home-view-all"
+            onClick={() => onNavigate("products")}
+          >
+            View All
+            <FiArrowRight />
+          </button>
+        </div>
+
+        <div className="home-category-grid">
+          {categories.map((category) => (
+            <button
+              type="button"
+              className="home-category-card"
+              key={category.name}
+              onClick={() => onNavigate("products")}
+            >
+              <img
+                src={category.image}
+                alt={category.name}
+              />
+
+              <div className="home-category-overlay">
+                <span>{category.name}</span>
+                <small>{category.description}</small>
+              </div>
+            </button>
+          ))}
+        </div>
       </section>
 
-      {/* PRODUCTS */}
-      <main
-        id="products"
-        className="products-area"
-      >
+      {/* =========================
+          SPECIAL OFFERS
+      ========================= */}
+      <section className="home-offers-section">
+        <div className="home-offers-content">
+          <p className="home-section-eyebrow">
+            NOVA SPECIAL
+          </p>
 
-        <TopFilters
-          products={products}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={
-            setSelectedCategory
-          }
-          selectedBrand={selectedBrand}
-          setSelectedBrand={setSelectedBrand}
-          selectedGender={selectedGender}
-          setSelectedGender={
-            setSelectedGender
-          }
-          selectedPrice={selectedPrice}
-          setSelectedPrice={
-            setSelectedPrice
-          }
-          onClearFilters={
-            handleClearFilters
-          }
-        />
+          <h2>Shop More. Save More.</h2>
 
-        <ProductGrid
-          products={filteredProducts}
-          onAddToCart={onAddToCart}
-          onProductClick={onProductClick}
-        />
+          <p>
+            Discover exclusive festive offers and special
+            discounts across our collection.
+          </p>
 
-      </main>
+          <div className="home-offer-buttons">
+            <button
+              type="button"
+              onClick={() => onNavigate("festive-offers")}
+            >
+              Festive Offers
+              <FiArrowRight />
+            </button>
 
-    </div>
+            <button
+              type="button"
+              onClick={() => onNavigate("discount-days")}
+            >
+              Discount Days
+              <FiArrowRight />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onNavigate("mega-sale")}
+            >
+              Mega Sale
+              <FiArrowRight />
+            </button>
+          </div>
+        </div>
+
+        <div className="home-offer-badge">
+          <span>UP TO</span>
+          <strong>40%</strong>
+          <small>OFF</small>
+        </div>
+      </section>
+
+      {/* =========================
+          FEATURED PRODUCTS
+      ========================= */}
+      <section className="home-section">
+        <div className="home-section-heading">
+          <div>
+            <p className="home-section-eyebrow">
+              NOVA COLLECTION
+            </p>
+
+            <h2>Featured Products</h2>
+
+            <p>
+              Handpicked products worth discovering.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="home-view-all"
+            onClick={() => onNavigate("products")}
+          >
+            Shop All
+            <FiArrowRight />
+          </button>
+        </div>
+
+        <div className="home-featured-grid">
+          {featuredProducts.map((product) => (
+            <div
+              className="home-featured-card"
+              key={product.id}
+            >
+              <div
+                className="home-featured-image"
+                onClick={() => onViewDetails(product)}
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                />
+              </div>
+
+              <div className="home-featured-info">
+                <span>{product.category}</span>
+
+                <h3>{product.name}</h3>
+
+                <p>{product.brand}</p>
+
+                <div className="home-featured-bottom">
+                  <strong>₹{product.price}</strong>
+
+                  <span>
+                    ⭐ {product.rating}
+                  </span>
+                </div>
+
+                <div className="home-featured-actions">
+                  <button
+                    type="button"
+                    onClick={() => onAddToCart(product)}
+                  >
+                    Add to Cart
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => onBuyNow(product)}
+                  >
+                    Buy Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================
+          PREMIUM CTA
+      ========================= */}
+      <section className="home-premium-section">
+        <div>
+          <p className="home-section-eyebrow">
+            NOVA PREMIUM
+          </p>
+
+          <h2>
+            Upgrade Your
+            <br />
+            Shopping Experience
+          </h2>
+
+          <p>
+            Enjoy exclusive benefits, premium products and
+            faster delivery with NOVA Premium.
+          </p>
+
+          <button
+            type="button"
+            onClick={() => onNavigate("premium")}
+          >
+            Explore Premium
+            <FiArrowRight />
+          </button>
+        </div>
+
+        <div className="home-premium-icon">
+          <FiStar />
+        </div>
+      </section>
+
+    </main>
   );
 }
 

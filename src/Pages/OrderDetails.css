@@ -810,3 +810,144 @@
 .refund-initiated {
   color: #2563a8 !important;
 }
+/* =====================================================
+   DELIVERY INFORMATION
+===================================================== */
+
+.delivery-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Individual detail */
+
+.delivery-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px 16px;
+  background: #f8f9fb;
+  border: 1px solid #e7e9ee;
+  border-radius: 10px;
+  min-height: 70px;
+}
+
+.delivery-detail-row > svg {
+  flex-shrink: 0;
+  width: 19px;
+  height: 19px;
+  margin-top: 2px;
+  color: #222;
+}
+
+/* Text container */
+
+.delivery-detail-row > div:not(.delivery-detail-placeholder) {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.delivery-detail-row span {
+  font-size: 12px;
+  color: #777;
+  font-weight: 500;
+}
+
+.delivery-detail-row strong {
+  font-size: 14px;
+  color: #222;
+  font-weight: 600;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Placeholder for City / State / Pincode */
+
+.delivery-detail-placeholder {
+  width: 19px;
+  min-width: 19px;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  color: #777;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+/* Address can take full width */
+
+.delivery-detail-row:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+/* Hover effect */
+
+.delivery-detail-row:hover {
+  border-color: #d2d5dc;
+  background: #f5f6f8;
+  transition: 0.2s ease;
+}
+
+/* =====================================================
+   DELIVERY CARD HEADING
+===================================================== */
+
+.order-details-card .order-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.order-details-card .order-card-heading svg {
+  width: 22px;
+  height: 22px;
+  color: #222;
+  flex-shrink: 0;
+}
+
+.order-details-card .order-card-heading h2 {
+  margin: 0;
+}
+
+.order-details-card .order-card-heading p {
+  margin: 5px 0 0;
+  color: #777;
+  font-size: 13px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .delivery-details {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .delivery-detail-row:nth-child(4) {
+    grid-column: auto;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .delivery-detail-row {
+    padding: 13px;
+  }
+
+  .delivery-detail-row strong {
+    font-size: 13px;
+  }
+
+}

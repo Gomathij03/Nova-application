@@ -7,6 +7,9 @@ import {
   FiXCircle,
   FiRefreshCw,
   FiCheckCircle,
+  FiUser,
+  FiPhone,
+  FiMail,
 } from "react-icons/fi";
 import "./OrderDetails.css";
 
@@ -47,9 +50,13 @@ function OrderDetails({
   const orderTotal =
     Number(order.total || order.amount || 0);
 
+  /* ================= CANCEL ORDER ================= */
+
   const handleCancel = () => {
     if (!cancelReason) {
-      alert("Please select a cancellation reason.");
+      alert(
+        "Please select a cancellation reason."
+      );
       return;
     }
 
@@ -58,29 +65,39 @@ function OrderDetails({
     );
 
     setShowCancel(false);
-  if (onOrderCancelled) {
-    onOrderCancelled(order.id);
-  }
+
+    if (onOrderCancelled) {
+      onOrderCancelled(order.id);
+    }
   };
 
- const handleReturn = () => {
-  if (!returnReason) {
-    alert("Please select a return reason.");
-    return;
-  }
+  /* ================= RETURN ORDER ================= */
 
-  if (onOrderReturned) {
-    onOrderReturned(order.id, returnReason);
-  }
+  const handleReturn = () => {
+    if (!returnReason) {
+      alert(
+        "Please select a return reason."
+      );
+      return;
+    }
 
-  setShowReturn(false);
-};
+    if (onOrderReturned) {
+      onOrderReturned(
+        order.id,
+        returnReason
+      );
+    }
+
+    setShowReturn(false);
+  };
+
   return (
     <main className="order-details-page">
 
       <div className="order-details-container">
 
-        {/* BACK */}
+        {/* ================= BACK ================= */}
+
         <button
           className="order-details-back"
           onClick={onBack}
@@ -89,7 +106,8 @@ function OrderDetails({
           Back to Orders
         </button>
 
-        {/* HEADER */}
+        {/* ================= HEADER ================= */}
+
         <div className="order-details-header">
 
           <div>
@@ -97,53 +115,63 @@ function OrderDetails({
               NOVA ORDER
             </p>
 
-            <h1>Order Details</h1>
+            <h1>
+              Order Details
+            </h1>
 
             <p>
               Order ID: #{order.id}
             </p>
           </div>
 
-         <div className="order-status-wrapper">
+          <div className="order-status-wrapper">
 
-  <span
-    className={`order-status ${orderStatus
-      .toLowerCase()
-      .replace(/\s+/g, "-")}`}
-  >
-    <FiCheckCircle />
-    {orderStatus}
-  </span>
+            <span
+              className={`order-status ${orderStatus
+                .toLowerCase()
+                .replace(/\s+/g, "-")}`}
+            >
+              <FiCheckCircle />
+              {orderStatus}
+            </span>
 
-  {order.returnStatus && (
-    <span className="refund-status">
-      <FiRefreshCw />
-      {order.returnStatus}
-    </span>
-  )}
+            {order.returnStatus && (
+              <span className="refund-status">
+                <FiRefreshCw />
+                {order.returnStatus}
+              </span>
+            )}
 
-  {order.refundStatus && (
-    <span className="refund-status">
-      <FiRefreshCw />
-      {order.refundStatus}
-    </span>
-  )}
+            {order.refundStatus && (
+              <span className="refund-status">
+                <FiRefreshCw />
+                {order.refundStatus}
+              </span>
+            )}
 
-</div>
+          </div>
 
         </div>
 
         <div className="order-details-layout">
 
-          {/* LEFT */}
+          {/* =====================================================
+              LEFT SIDE
+          ===================================================== */}
+
           <section className="order-details-main">
 
-            {/* PRODUCTS */}
+            {/* ================= ORDERED PRODUCTS ================= */}
+
             <div className="order-details-card">
 
               <div className="order-card-heading">
+
                 <div>
-                  <h2>Ordered Products</h2>
+                  <h2>
+                    Ordered Products
+                  </h2>
+
                   <p>
                     {products.length}{" "}
                     {products.length === 1
@@ -153,150 +181,300 @@ function OrderDetails({
                 </div>
 
                 <FiPackage />
+
               </div>
 
               <div className="ordered-products">
 
-                {products.map((item, index) => {
+                {products.map(
+                  (item, index) => {
 
-                  const quantity =
-                    Number(item.quantity || 1);
+                    const quantity =
+                      Number(
+                        item.quantity || 1
+                      );
 
-                  const price =
-                    Number(item.price || 0);
+                    const price =
+                      Number(
+                        item.price || 0
+                      );
 
-                  return (
-                    <div
-                      className="ordered-product"
-                      key={
-                        item.id || index
-                      }
-                    >
+                    return (
+                      <div
+                        className="ordered-product"
+                        key={
+                          item.id || index
+                        }
+                      >
 
-                      <div className="ordered-product-image">
+                        {/* PRODUCT IMAGE */}
 
-                        {item.image ? (
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                          />
-                        ) : (
-                          <FiPackage />
-                        )}
+                        <div className="ordered-product-image">
 
-                      </div>
-
-                      <div className="ordered-product-info">
-
-                        <span>
-                          {item.brand || "NOVA"}
-                        </span>
-
-                        <h3>
-                          {item.name}
-                        </h3>
-
-                        {item.category && (
-                          <p>
-                            {item.category}
-                          </p>
-                        )}
-
-                        <div className="ordered-product-meta">
-
-                          {item.color && (
-                            <small>
-                              Color: {item.color}
-                            </small>
+                          {item.image ? (
+                            <img
+                              src={item.image}
+                              alt={
+                                item.name
+                              }
+                            />
+                          ) : (
+                            <FiPackage />
                           )}
-
-                          {item.size && (
-                            <small>
-                              Size: {item.size}
-                            </small>
-                          )}
-
-                          <small>
-                            Qty: {quantity}
-                          </small>
 
                         </div>
 
+                        {/* PRODUCT DETAILS */}
+
+                        <div className="ordered-product-info">
+
+                          <span>
+                            {
+                              item.brand ||
+                              "NOVA"
+                            }
+                          </span>
+
+                          <h3>
+                            {item.name}
+                          </h3>
+
+                          {item.category && (
+                            <p>
+                              {
+                                item.category
+                              }
+                            </p>
+                          )}
+
+                          <div className="ordered-product-meta">
+
+                            {item.color && (
+                              <small>
+                                Color:{" "}
+                                {
+                                  item.color
+                                }
+                              </small>
+                            )}
+
+                            {item.size && (
+                              <small>
+                                Size:{" "}
+                                {
+                                  item.size
+                                }
+                              </small>
+                            )}
+
+                            <small>
+                              Qty:{" "}
+                              {quantity}
+                            </small>
+
+                          </div>
+
+                        </div>
+
+                        {/* PRODUCT TOTAL */}
+
+                        <strong>
+                          ₹
+                          {(
+                            price *
+                            quantity
+                          ).toLocaleString(
+                            "en-IN"
+                          )}
+                        </strong>
+
                       </div>
-
-                      <strong>
-                        ₹
-                        {(
-                          price * quantity
-                        ).toLocaleString(
-                          "en-IN"
-                        )}
-                      </strong>
-
-                    </div>
-                  );
-                })}
+                    );
+                  }
+                )}
 
               </div>
 
             </div>
 
-            {/* DELIVERY */}
-<div className="order-details-card">
+            {/* =====================================================
+                DELIVERY INFORMATION
+            ===================================================== */}
 
-  <div className="order-card-heading">
-
-    <div>
-      <h2>Delivery Information</h2>
-      <p>Where your order will be delivered</p>
-    </div>
-
-    <FiMapPin />
-
-  </div>
-
-  <div className="delivery-details">
-
-    <h3>
-      {order.address?.name ||
-        order.user?.name ||
-        "Customer"}
-    </h3>
-
-    <p>
-      {order.address?.address ||
-        order.address?.street ||
-        "Delivery address"}
-    </p>
-
-    <p>
-      {order.address?.city
-        ? `${order.address.city}, `
-        : ""}
-
-      {order.address?.state || ""}
-
-      {order.address?.pincode
-        ? ` - ${order.address.pincode}`
-        : ""}
-    </p>
-
-    {order.address?.phone && (
-      <p>
-        Phone: {order.address.phone}
-      </p>
-    )}
-
-  </div>
-
-</div>
-
-            {/* PAYMENT */}
             <div className="order-details-card">
 
               <div className="order-card-heading">
 
                 <div>
+                  <h2>
+                    Delivery Information
+                  </h2>
+
+                  <p>
+                    Customer and delivery details
+                  </p>
+                </div>
+
+                <FiMapPin />
+
+              </div>
+
+              <div className="delivery-details">
+
+                {/* CUSTOMER NAME */}
+
+                <div className="delivery-detail-row">
+
+                  <FiUser />
+
+                  <div>
+                    <span>
+                      Full Name
+                    </span>
+
+                    <strong>
+                      {order.address?.name ||
+                        order.user?.name ||
+                        "Not provided"}
+                    </strong>
+                  </div>
+
+                </div>
+
+                {/* PHONE */}
+
+                <div className="delivery-detail-row">
+
+                  <FiPhone />
+
+                  <div>
+                    <span>
+                      Phone Number
+                    </span>
+
+                    <strong>
+                      {order.address?.phone ||
+                        "Not provided"}
+                    </strong>
+                  </div>
+
+                </div>
+
+                {/* EMAIL */}
+
+                <div className="delivery-detail-row">
+
+                  <FiMail />
+
+                  <div>
+                    <span>
+                      Email Address
+                    </span>
+
+                    <strong>
+                      {order.address?.email ||
+                        "Not provided"}
+                    </strong>
+                  </div>
+
+                </div>
+
+                {/* ADDRESS */}
+
+                <div className="delivery-detail-row">
+
+                  <FiMapPin />
+
+                  <div>
+                    <span>
+                      Address
+                    </span>
+
+                    <strong>
+                      {order.address?.address ||
+                        "Not provided"}
+                    </strong>
+                  </div>
+
+                </div>
+
+                {/* CITY */}
+
+                <div className="delivery-detail-row">
+
+                  <div className="delivery-detail-placeholder">
+                    City
+                  </div>
+
+                  <div>
+                    <span>
+                      City
+                    </span>
+
+                    <strong>
+                      {order.address?.city ||
+                        "Not provided"}
+                    </strong>
+                  </div>
+
+                </div>
+
+                {/* STATE */}
+
+                <div className="delivery-detail-row">
+
+                  <div className="delivery-detail-placeholder">
+                    State
+                  </div>
+
+                  <div>
+                    <span>
+                      State
+                    </span>
+
+                    <strong>
+                      {order.address?.state ||
+                        "Not provided"}
+                    </strong>
+                  </div>
+
+                </div>
+
+                {/* PINCODE */}
+
+                <div className="delivery-detail-row">
+
+                  <div className="delivery-detail-placeholder">
+                    PIN
+                  </div>
+
+                  <div>
+                    <span>
+                      Pincode
+                    </span>
+
+                    <strong>
+                      {order.address?.pincode ||
+                        "Not provided"}
+                    </strong>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* =====================================================
+                PAYMENT INFORMATION
+            ===================================================== */}
+
+            <div className="order-details-card">
+
+              <div className="order-card-heading">
+
+                <div>
+
                   <h2>
                     Payment Information
                   </h2>
@@ -304,57 +482,76 @@ function OrderDetails({
                   <p>
                     Payment details for this order
                   </p>
+
                 </div>
 
                 <FiCreditCard />
 
               </div>
 
-             <div className="payment-info">
+              <div className="payment-info">
 
-  <div>
-    <span>Payment Method</span>
+                <div>
+                  <span>
+                    Payment Method
+                  </span>
 
-    <strong>
-      {order.paymentMethod ||
-        "Cash on Delivery"}
-    </strong>
-  </div>
+                  <strong>
+                    {order.paymentMethod ||
+                      "Cash on Delivery"}
+                  </strong>
+                </div>
 
-  <div>
-    <span>Payment Status</span>
+                <div>
+                  <span>
+                    Payment Status
+                  </span>
 
-    <strong>
-      {order.paymentStatus ||
-        "Pending"}
-    </strong>
-  </div>
+                  <strong>
+                    {order.paymentStatus ||
+                      "Pending"}
+                  </strong>
+                </div>
 
-  {order.refundStatus && (
-    <div>
-      <span>Refund Status</span>
+                {order.refundStatus && (
+                  <div>
+                    <span>
+                      Refund Status
+                    </span>
 
-      <strong className="refund-initiated">
-        {order.refundStatus}
-      </strong>
-    </div>
-  )}
+                    <strong className="refund-initiated">
+                      {
+                        order.refundStatus
+                      }
+                    </strong>
+                  </div>
+                )}
 
-</div>
+              </div>
 
             </div>
 
           </section>
 
-          {/* RIGHT */}
+          {/* =====================================================
+              RIGHT SIDE
+          ===================================================== */}
+
           <aside className="order-details-summary">
+
+            {/* ================= SUMMARY ================= */}
 
             <div className="order-summary-card">
 
-              <h2>Order Summary</h2>
+              <h2>
+                Order Summary
+              </h2>
 
               <div className="summary-line">
-                <span>Subtotal</span>
+
+                <span>
+                  Subtotal
+                </span>
 
                 <strong>
                   ₹
@@ -365,10 +562,14 @@ function OrderDetails({
                     "en-IN"
                   )}
                 </strong>
+
               </div>
 
               <div className="summary-line">
-                <span>Delivery</span>
+
+                <span>
+                  Delivery
+                </span>
 
                 <strong>
                   {Number(
@@ -377,27 +578,41 @@ function OrderDetails({
                       0
                   ) === 0
                     ? "FREE"
-                    : `₹${order.delivery ||
-                        order.deliveryCharge}`}
+                    : `₹${
+                        order.delivery ||
+                        order.deliveryCharge
+                      }`}
                 </strong>
+
               </div>
 
               <div className="summary-line">
-                <span>Platform Fee</span>
+
+                <span>
+                  Platform Fee
+                </span>
 
                 <strong>
-                  ₹
                   {Number(
                     order.platformFee || 0
-                  ).toLocaleString(
-                    "en-IN"
-                  )}
+                  ) === 0
+                    ? "FREE"
+                    : `₹${Number(
+                        order.platformFee
+                      ).toLocaleString(
+                        "en-IN"
+                      )}`}
                 </strong>
+
               </div>
 
-              {(order.discount || 0) > 0 && (
+              {(order.discount || 0) >
+                0 && (
                 <div className="summary-line discount">
-                  <span>Discount</span>
+
+                  <span>
+                    Discount
+                  </span>
 
                   <strong>
                     -₹
@@ -407,6 +622,7 @@ function OrderDetails({
                       "en-IN"
                     )}
                   </strong>
+
                 </div>
               )}
 
@@ -414,7 +630,9 @@ function OrderDetails({
 
               <div className="order-total">
 
-                <span>Total Amount</span>
+                <span>
+                  Total Amount
+                </span>
 
                 <strong>
                   ₹
@@ -427,13 +645,18 @@ function OrderDetails({
 
             </div>
 
-            {/* ACTIONS */}
+            {/* ================= ACTIONS ================= */}
+
             <div className="order-actions-card">
 
-              <h2>Order Actions</h2>
+              <h2>
+                Order Actions
+              </h2>
 
-              {orderStatus !== "Cancelled" && (
+              {orderStatus !==
+                "Cancelled" && (
                 <>
+
                   <button
                     className="cancel-order-btn"
                     onClick={() =>
@@ -453,13 +676,18 @@ function OrderDetails({
                     <FiRefreshCw />
                     Return Product
                   </button>
+
                 </>
               )}
 
-              {orderStatus === "Cancelled" && (
+              {orderStatus ===
+                "Cancelled" && (
                 <div className="cancelled-message">
+
                   <FiXCircle />
+
                   This order has been cancelled.
+
                 </div>
               )}
 
@@ -469,8 +697,12 @@ function OrderDetails({
 
         </div>
 
-        {/* CANCEL MODAL */}
+        {/* =====================================================
+            CANCEL MODAL
+        ===================================================== */}
+
         {showCancel && (
+
           <div className="order-modal-overlay">
 
             <div className="order-modal">
@@ -503,6 +735,7 @@ function OrderDetails({
                   )
                 }
               >
+
                 <option value="">
                   Select cancellation reason
                 </option>
@@ -530,6 +763,7 @@ function OrderDetails({
                 <option>
                   Other reason
                 </option>
+
               </select>
 
               <div className="modal-actions">
@@ -555,10 +789,15 @@ function OrderDetails({
             </div>
 
           </div>
+
         )}
 
-        {/* RETURN MODAL */}
+        {/* =====================================================
+            RETURN MODAL
+        ===================================================== */}
+
         {showReturn && (
+
           <div className="order-modal-overlay">
 
             <div className="order-modal">
@@ -591,6 +830,7 @@ function OrderDetails({
                   )
                 }
               >
+
                 <option value="">
                   Select return reason
                 </option>
@@ -622,6 +862,7 @@ function OrderDetails({
                 <option>
                   Other reason
                 </option>
+
               </select>
 
               <div className="modal-actions">
@@ -647,6 +888,7 @@ function OrderDetails({
             </div>
 
           </div>
+
         )}
 
       </div>

@@ -11,6 +11,9 @@ function Products({
   onViewDetails,
   onBuyNow,
   onOfferClick,
+  wishlist = [],
+  onAddToWishlist,
+  onRemoveFromWishlist,
 }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedColor, setSelectedColor] = useState("All");
@@ -189,12 +192,14 @@ function Products({
         {/* ================= PRODUCTS ================= */}
 
         <ProductGrid
-          products={sortedProducts}
-          onAddToCart={onAddToCart}
-          onViewDetails={onViewDetails}
-          onBuyNow={onBuyNow}
-        />
-
+  products={sortedProducts}
+  onAddToCart={onAddToCart}
+  onViewDetails={onViewDetails}
+  onBuyNow={onBuyNow}
+  wishlist={wishlist}
+  onAddToWishlist={onAddToWishlist}
+  onRemoveFromWishlist={onRemoveFromWishlist}
+/>
       </div>
 
     </main>

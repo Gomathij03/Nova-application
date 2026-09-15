@@ -4,10 +4,13 @@ import saleProducts from "../Data/SaleProducts";
 import "./SalesPage.css";
 
 function DiscountDays({
+  onNavigate,
   onAddToCart,
   onBuyNow,
   onViewDetails,
-  onNavigate,
+  wishlist = [],
+  onAddToWishlist,
+  onRemoveFromWishlist,
 }) {
   const discountProducts = saleProducts.discount;
 
@@ -69,12 +72,15 @@ function DiscountDays({
           </span>
         </div>
 
-        <ProductGrid
-          products={discountProducts}
-          onAddToCart={onAddToCart}
-          onBuyNow={onBuyNow}
-          onViewDetails={onViewDetails}
-        />
+       <ProductGrid
+  products={discountProducts}
+  onAddToCart={onAddToCart}
+  onBuyNow={onBuyNow}
+  onViewDetails={onViewDetails}
+  wishlist={wishlist}
+  onAddToWishlist={onAddToWishlist}
+  onRemoveFromWishlist={onRemoveFromWishlist}
+/>
 
       </section>
 

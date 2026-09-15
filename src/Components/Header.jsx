@@ -8,6 +8,7 @@ import {
   FiSettings,
   FiMenu,
   FiX,
+FiHeart,
   
 } from "react-icons/fi";
 import { useAuth } from "../Context/AuthContext";
@@ -40,11 +41,11 @@ function Header({
     }
   };
 
-  const handleLogoClick = () => {
-    setSearchValue("");
-    onSearch("");
-    onNavigate("products");
-  };
+ const handleLogoClick = () => {
+  setSearchValue("");
+  onSearch("");
+  onNavigate("home");
+};
 
   const handleProductsClick = () => {
     setSearchValue("");
@@ -158,6 +159,21 @@ function Header({
               </span>
             )}
           </button>
+
+     <button
+  type="button"
+  className="wishlist-nav-button"
+  onClick={() => {
+    onNavigate("wishlist");
+    setMobileMenu(false);
+  }}
+  aria-label="Wishlist"
+  title="Wishlist"
+>
+  <FiHeart />
+</button>
+
+
 {/* SETTINGS */}
   {isLoggedIn && (
     <button

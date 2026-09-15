@@ -8,6 +8,28 @@ import {
 } from "react-icons/fi";
 import { useCart } from "../Context/CartContext";
 import "./Checkout.css";
+
+const premiumProductIds = [
+  6,
+  7,
+  9,
+  10,
+  17,
+  19,
+  20,
+  25,
+  27,
+  29,
+  30,
+  36,
+  37,
+  40,
+  43,
+  46,
+  47,
+  49,
+  50,
+];
 function Checkout({
   product,
   cart,
@@ -16,21 +38,29 @@ function Checkout({
   onBack,
   onOrderPlaced,
 }) {
-  const {
-    cartTotal,
-  } = useCart();
+  const { cartTotal } = useCart();
 
-  const checkoutItems =
-    product
-      ? [product]
-      : cart || [];
+  /* ================= CHECKOUT ITEMS ================= */
 
- const isPrime =
-  isPrimeProp ||
-  user?.isPrime ||
-  user?.prime ||
-  user?.primeUser ||
-  false;
+  const checkoutItems = product
+    ? [product]
+    : cart || [];
+
+    const hasPremiumProduct = checkoutItems.some(
+  (item) =>
+    premiumProductIds.includes(Number(item.id))
+);
+
+  /* ================= PRIME ================= */
+
+  const isPrime =
+    isPrimeProp ||
+    user?.isPrime ||
+    user?.prime ||
+    user?.primeUser ||
+    false;
+
+  /* ================= PAYMENT STATES ================= */
 
   const [paymentMethod, setPaymentMethod] =
     useState("upi");
@@ -55,6 +85,24 @@ function Checkout({
   const [placingOrder, setPlacingOrder] =
     useState(false);
 
+  /* ================= CUSTOMER DETAILS ================= */
+
+  const [customerDetails, setCustomerDetails] =
+    useState({
+      name: user?.name || "",
+      phone: "",
+      email: user?.email || "",
+      pincode: "",
+      address: "",
+      city: "",
+      state: "",
+    });
+
+  const [formError, setFormError] =
+    useState("");
+
+  /* ================= ITEM TOTAL ================= */
+
   const itemTotal = useMemo(() => {
     return checkoutItems.reduce(
       (total, item) =>
@@ -65,34 +113,73 @@ function Checkout({
     );
   }, [checkoutItems]);
 
+  /* ================= PREMIUM DISCOUNT ================= */
+
+const premiumEligibleItems = checkoutItems.filter(
+  (item) =>
+    premiumProductIds.includes(Number(item.id))
+);
+
+const premiumDiscount = isPrime
+  ? Math.round(
+      premiumEligibleItems.reduce(
+        (total, item) =>
+          total +
+          Number(item.price || 0) *
+            Number(item.quantity || 1),
+        0
+      ) * 0.10
+    )
+  : 0;
+  /* ================= DELIVERY CHARGE ================= */
+
   const deliveryCharge = isPrime
     ? 0
     : itemTotal >= 3000
     ? 0
     : 99;
 
+  /* ================= PLATFORM FEE ================= */
+
   const platformFee = isPrime
     ? 0
     : 29;
+
+  /* ================= NOVA COUPON ================= */
 
   const couponDiscount =
     itemTotal >= 5000
       ? Math.round(itemTotal * 0.05)
       : 0;
 
-  const finalTotal =
-    itemTotal +
-    deliveryCharge +
-    platformFee -
-    couponDiscount -
-    cardDiscount;
+  /* ================= FINAL TOTAL ================= */
 
-  /* =========================================
-     CARD DISCOUNT
-  ========================================= */
+const finalTotal =
+  itemTotal +
+  deliveryCharge +
+  platformFee -
+  couponDiscount -
+  premiumDiscount -
+  cardDiscount;
+  /* ================= CUSTOMER DETAIL CHANGE ================= */
+
+  const handleCustomerDetailChange = (
+    field,
+    value
+  ) => {
+    setCustomerDetails((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    setFormError("");
+  };
+
+  /* ================= CARD DISCOUNT ================= */
 
   const handleCardChange = (value) => {
-    const numbersOnly = value.replace(/\D/g, "");
+    const numbersOnly =
+      value.replace(/\D/g, "");
 
     if (numbersOnly.length >= 16) {
       setCardDiscount(
@@ -103,26 +190,126 @@ function Checkout({
     }
   };
 
-  /* =========================================
-     PAYMENT METHOD CHANGE
-  ========================================= */
+  /* ================= PAYMENT METHOD ================= */
 
-  const handlePaymentMethodChange = (method) => {
+  const handlePaymentMethodChange = (
+    method
+  ) => {
     setPaymentMethod(method);
 
-    // Remove card discount when another
-    // payment method is selected
+    setFormError("");
+
     if (method !== "card") {
       setCardDiscount(0);
     }
   };
 
-  /* =========================================
-     PLACE ORDER
-  ========================================= */
+  /* ================= PLACE ORDER ================= */
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
+
+    const {
+      name,
+      phone,
+      email,
+      pincode,
+      address,
+      city,
+      state,
+    } = customerDetails;
+
+    /* ================= DELIVERY VALIDATION ================= */
+
+    if (
+      !name.trim() ||
+      !phone.trim() ||
+      !email.trim() ||
+      !pincode.trim() ||
+      !address.trim() ||
+      !city.trim() ||
+      !state.trim()
+    ) {
+      setFormError(
+        "Please fill in all mandatory delivery details."
+      );
+      return;
+    }
+
+    /* ================= PHONE VALIDATION ================= */
+
+    if (!/^\d{10}$/.test(phone)) {
+      setFormError(
+        "Please enter a valid 10-digit phone number."
+      );
+      return;
+    }
+
+    /* ================= PINCODE VALIDATION ================= */
+
+    if (!/^\d{6}$/.test(pincode)) {
+      setFormError(
+        "Please enter a valid 6-digit pincode."
+      );
+      return;
+    }
+
+    /* ================= EMAIL VALIDATION ================= */
+
+    if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        email
+      )
+    ) {
+      setFormError(
+        "Please enter a valid email address."
+      );
+      return;
+    }
+
+    /* ================= UPI VALIDATION ================= */
+
+    if (
+      paymentMethod === "upi" &&
+      !upiId.trim()
+    ) {
+      setFormError(
+        "Please enter your UPI ID."
+      );
+      return;
+    }
+
+    /* ================= CARD VALIDATION ================= */
+
+    if (paymentMethod === "card") {
+      const cardDigits =
+        cardNumber.replace(/\D/g, "");
+
+      if (cardDigits.length !== 16) {
+        setFormError(
+          "Please enter a valid 16-digit card number."
+        );
+        return;
+      }
+
+      if (!expiry.trim()) {
+        setFormError(
+          "Please enter the card expiry date."
+        );
+        return;
+      }
+
+      if (!/^\d{3}$/.test(cvv)) {
+        setFormError(
+          "Please enter a valid 3-digit CVV."
+        );
+        return;
+      }
+    }
+
+    /* ================= VALIDATION SUCCESS ================= */
+
+    setFormError("");
 
     setPlacingOrder(true);
 
@@ -134,8 +321,15 @@ function Checkout({
       );
 
       if (onOrderPlaced) {
-        onOrderPlaced();
-      }
+  onOrderPlaced({
+    customerDetails,
+    paymentMethod,
+    finalTotal: Math.max(
+      0,
+      finalTotal
+    ),
+  });
+}
     }, 800);
   };
 
@@ -144,9 +338,10 @@ function Checkout({
 
       <div className="checkout-container">
 
-        {/* TOP */}
+        {/* ================= TOP ================= */}
 
         <button
+          type="button"
           className="checkout-back"
           onClick={onBack}
         >
@@ -164,11 +359,11 @@ function Checkout({
 
         <div className="checkout-layout">
 
-          {/* LEFT */}
+          {/* ================= LEFT SIDE ================= */}
 
           <section className="checkout-main">
 
-            {/* DELIVERY */}
+            {/* ================= DELIVERY INFORMATION ================= */}
 
             <div className="checkout-card">
 
@@ -176,56 +371,134 @@ function Checkout({
                 Delivery Information
               </h2>
 
+              <p
+                style={{
+                  fontSize: "13px",
+                  color: "#777",
+                  marginBottom: "15px",
+                }}
+              >
+                Fields marked with * are mandatory.
+              </p>
+
               <div className="checkout-form-grid">
 
+                {/* FULL NAME */}
+
                 <input
-                  placeholder="Full Name"
-                  defaultValue={
-                    user?.name || ""
+                  placeholder="Full Name *"
+                  value={customerDetails.name}
+                  onChange={(e) =>
+                    handleCustomerDetailChange(
+                      "name",
+                      e.target.value
+                    )
                   }
-                  required
                 />
 
-                <input
-                  placeholder="Phone Number"
-                  required
-                />
+                {/* PHONE */}
 
                 <input
-                  placeholder="Email Address"
+                  placeholder="Phone Number *"
+                  value={customerDetails.phone}
+                  maxLength={10}
+                  inputMode="numeric"
+                  onChange={(e) =>
+                    handleCustomerDetailChange(
+                      "phone",
+                      e.target.value.replace(
+                        /\D/g,
+                        ""
+                      )
+                    )
+                  }
+                />
+
+                {/* EMAIL */}
+
+                <input
+                  placeholder="Email Address *"
                   type="email"
-                  defaultValue={
-                    user?.email || ""
+                  value={customerDetails.email}
+                  onChange={(e) =>
+                    handleCustomerDetailChange(
+                      "email",
+                      e.target.value
+                    )
                   }
-                  required
                 />
 
+                {/* PINCODE */}
+
                 <input
-                  placeholder="Pincode"
-                  required
+                  placeholder="Pincode *"
+                  value={customerDetails.pincode}
+                  maxLength={6}
+                  inputMode="numeric"
+                  onChange={(e) =>
+                    handleCustomerDetailChange(
+                      "pincode",
+                      e.target.value.replace(
+                        /\D/g,
+                        ""
+                      )
+                    )
+                  }
                 />
+
+                {/* ADDRESS */}
 
                 <input
                   className="full-input"
-                  placeholder="Address"
-                  required
+                  placeholder="Full Address *"
+                  value={customerDetails.address}
+                  onChange={(e) =>
+                    handleCustomerDetailChange(
+                      "address",
+                      e.target.value
+                    )
+                  }
                 />
 
-                <input
-                  placeholder="City"
-                  required
-                />
+                {/* CITY */}
 
                 <input
-                  placeholder="State"
-                  required
+                  placeholder="City *"
+                  value={customerDetails.city}
+                  onChange={(e) =>
+                    handleCustomerDetailChange(
+                      "city",
+                      e.target.value
+                    )
+                  }
+                />
+
+                {/* STATE */}
+
+                <input
+                  placeholder="State *"
+                  value={customerDetails.state}
+                  onChange={(e) =>
+                    handleCustomerDetailChange(
+                      "state",
+                      e.target.value
+                    )
+                  }
                 />
 
               </div>
 
             </div>
 
-            {/* PAYMENT */}
+            {/* ================= ERROR MESSAGE ================= */}
+
+            {formError && (
+              <div className="checkout-error">
+                ⚠️ {formError}
+              </div>
+            )}
+
+            {/* ================= PAYMENT ================= */}
 
             <div className="checkout-card">
 
@@ -292,7 +565,7 @@ function Checkout({
                   Wallet
                 </button>
 
-                {/* CASH ON DELIVERY */}
+                {/* COD */}
 
                 <button
                   type="button"
@@ -313,22 +586,23 @@ function Checkout({
 
               </div>
 
-              {/* UPI */}
+              {/* ================= UPI ================= */}
 
               {paymentMethod === "upi" && (
                 <div className="payment-content">
 
                   <label>
-                    UPI ID
+                    UPI ID *
                   </label>
 
                   <input
                     value={upiId}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setUpiId(
                         e.target.value
-                      )
-                    }
+                      );
+                      setFormError("");
+                    }}
                     placeholder="example@upi"
                   />
 
@@ -339,13 +613,13 @@ function Checkout({
                 </div>
               )}
 
-              {/* CARD */}
+              {/* ================= CARD ================= */}
 
               {paymentMethod === "card" && (
                 <div className="payment-content">
 
                   <label>
-                    Card Number
+                    Card Number *
                   </label>
 
                   <input
@@ -359,43 +633,53 @@ function Checkout({
                       handleCardChange(
                         value
                       );
+
+                      setFormError("");
                     }}
                     placeholder="1234 5678 9012 3456"
                     maxLength={19}
+                    inputMode="numeric"
                   />
 
                   <div className="card-row">
 
                     <div>
                       <label>
-                        Expiry
+                        Expiry *
                       </label>
 
                       <input
                         value={expiry}
-                        onChange={(e) =>
+                        onChange={(e) => {
                           setExpiry(
                             e.target.value
-                          )
-                        }
+                          );
+                          setFormError("");
+                        }}
                         placeholder="MM/YY"
+                        maxLength={5}
                       />
                     </div>
 
                     <div>
                       <label>
-                        CVV
+                        CVV *
                       </label>
 
                       <input
                         value={cvv}
-                        onChange={(e) =>
+                        onChange={(e) => {
                           setCvv(
-                            e.target.value
-                          )
-                        }
+                            e.target.value.replace(
+                              /\D/g,
+                              ""
+                            )
+                          );
+                          setFormError("");
+                        }}
                         placeholder="123"
                         maxLength={3}
+                        inputMode="numeric"
                       />
                     </div>
 
@@ -413,13 +697,13 @@ function Checkout({
                 </div>
               )}
 
-              {/* WALLET */}
+              {/* ================= WALLET ================= */}
 
               {paymentMethod === "wallet" && (
                 <div className="payment-content">
 
                   <label>
-                    Select Wallet
+                    Select Wallet *
                   </label>
 
                   <select
@@ -450,7 +734,7 @@ function Checkout({
                 </div>
               )}
 
-              {/* CASH ON DELIVERY */}
+              {/* ================= COD ================= */}
 
               {paymentMethod === "cod" && (
                 <div className="payment-content">
@@ -471,7 +755,7 @@ function Checkout({
 
           </section>
 
-          {/* RIGHT SUMMARY */}
+          {/* ================= RIGHT SUMMARY ================= */}
 
           <aside className="checkout-summary">
 
@@ -479,11 +763,12 @@ function Checkout({
               Order Summary
             </h2>
 
-            {/* ITEMS */}
+            {/* ================= PRODUCTS ================= */}
 
             <div className="checkout-products">
 
               {checkoutItems.map((item) => (
+
                 <div
                   className="checkout-product"
                   key={item.id}
@@ -495,6 +780,7 @@ function Checkout({
                   />
 
                   <div>
+
                     <h3>
                       {item.name}
                     </h3>
@@ -507,6 +793,7 @@ function Checkout({
                       Qty:{" "}
                       {item.quantity || 1}
                     </span>
+
                   </div>
 
                   <strong>
@@ -522,14 +809,15 @@ function Checkout({
                   </strong>
 
                 </div>
+
               ))}
 
             </div>
 
-            {/* PRIME */}
+            {/* ================= PRIME ================= */}
 
-            {isPrime && (
-              <div className="prime-benefits">
+            {isPrime && hasPremiumProduct && (
+  <div className="prime-benefits">
 
                 <h3>
                   NOVA PRIME
@@ -546,13 +834,17 @@ function Checkout({
                 <p>
                   ✓ No platform fee
                 </p>
+                <p>
+  ✓ 10% discount on Premium products
+</p>
 
               </div>
             )}
 
-            {/* SUMMARY */}
+            {/* ================= SUBTOTAL ================= */}
 
             <div className="checkout-summary-row">
+
               <span>
                 Subtotal
               </span>
@@ -563,9 +855,13 @@ function Checkout({
                   "en-IN"
                 )}
               </strong>
+
             </div>
 
+            {/* ================= DELIVERY ================= */}
+
             <div className="checkout-summary-row">
+
               <span>
                 Delivery
               </span>
@@ -575,9 +871,13 @@ function Checkout({
                   ? "FREE"
                   : `₹${deliveryCharge}`}
               </strong>
+
             </div>
 
+            {/* ================= PLATFORM FEE ================= */}
+
             <div className="checkout-summary-row">
+
               <span>
                 Platform Fee
               </span>
@@ -587,9 +887,13 @@ function Checkout({
                   ? "FREE"
                   : `₹${platformFee}`}
               </strong>
+
             </div>
 
+            {/* ================= NOVA DISCOUNT ================= */}
+
             {couponDiscount > 0 && (
+
               <div className="checkout-summary-row discount">
 
                 <span>
@@ -604,11 +908,27 @@ function Checkout({
                 </strong>
 
               </div>
-            )}
 
-            {/* CARD DISCOUNT */}
+            )}
+            {premiumDiscount > 0 && (
+  <div className="checkout-summary-row discount">
+    <span>
+      NOVA Premium Discount
+    </span>
+
+    <strong>
+      -₹
+      {premiumDiscount.toLocaleString(
+        "en-IN"
+      )}
+    </strong>
+  </div>
+)}
+
+            {/* ================= CARD DISCOUNT ================= */}
 
             {cardDiscount > 0 && (
+
               <div className="checkout-summary-row discount">
 
                 <span>
@@ -623,7 +943,10 @@ function Checkout({
                 </strong>
 
               </div>
+
             )}
+
+            {/* ================= TOTAL ================= */}
 
             <div className="checkout-total">
 
@@ -643,11 +966,15 @@ function Checkout({
 
             </div>
 
+            {/* ================= PLACE ORDER ================= */}
+
             <button
+              type="button"
               className="place-order-button"
               onClick={handlePlaceOrder}
               disabled={placingOrder}
             >
+
               {placingOrder
                 ? "Placing Order..."
                 : `Place Order • ₹${Math.max(
@@ -656,7 +983,10 @@ function Checkout({
                   ).toLocaleString(
                     "en-IN"
                   )}`}
+
             </button>
+
+            {/* ================= SECURITY ================= */}
 
             <div className="secure-payment">
 

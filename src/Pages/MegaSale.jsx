@@ -4,10 +4,13 @@ import saleProducts from "../Data/SaleProducts";
 import "./SalesPage.css";
 
 function MegaSale({
+  onNavigate,
   onAddToCart,
   onBuyNow,
   onViewDetails,
-  onNavigate,
+  wishlist = [],
+  onAddToWishlist,
+  onRemoveFromWishlist,
 }) {
   const megaProducts = saleProducts.mega;
 
@@ -69,12 +72,15 @@ function MegaSale({
           </span>
         </div>
 
-        <ProductGrid
-          products={megaProducts}
-          onAddToCart={onAddToCart}
-          onBuyNow={onBuyNow}
-          onViewDetails={onViewDetails}
-        />
+       <ProductGrid
+  products={megaProducts}
+  onAddToCart={onAddToCart}
+  onBuyNow={onBuyNow}
+  onViewDetails={onViewDetails}
+  wishlist={wishlist}
+  onAddToWishlist={onAddToWishlist}
+  onRemoveFromWishlist={onRemoveFromWishlist}
+/>
 
       </section>
 

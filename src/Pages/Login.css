@@ -181,3 +181,20 @@
     font-size: 28px;
   }
 }
+.forgot-password-link {
+  display: block;
+  width: fit-content;
+  margin: 8px 0 15px auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #071b36;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}

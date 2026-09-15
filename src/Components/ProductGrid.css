@@ -1,25 +1,299 @@
-/* ================================
+/* =========================================
    PRODUCT GRID
-================================ */
+========================================= */
 
 .product-grid-section {
   width: 100%;
-  margin-top: 28px;
 }
 
 .product-grid {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
-  width: 100%;
-  align-items: stretch;
 }
 
-/* ================================
+/* =========================================
+   PRODUCT CARD
+========================================= */
+
+.product-card {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================================
+   PRODUCT IMAGE
+========================================= */
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  background: #f8f8f8;
+  cursor: pointer;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.03);
+}
+
+/* =========================================
+   WISHLIST HEART
+========================================= */
+
+.wishlist-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #374151;
+
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+  z-index: 10;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.wishlist-button:hover {
+  color: #111827;
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.wishlist-button.wishlisted {
+  color: #e11d48;
+}
+
+.wishlist-button.wishlisted:hover {
+  color: #be123c;
+}
+
+/* =========================================
+   PRODUCT INFORMATION
+========================================= */
+
+.product-info {
+  padding: 16px;
+}
+
+.product-category {
+  margin: 0 0 6px;
+  color: #9a6a16;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.product-info h2 {
+  margin: 0 0 7px;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-brand {
+  margin: 0 0 4px;
+  color: #4b5563;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.product-color {
+  margin: 0 0 8px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* =========================================
+   RATING
+========================================= */
+
+.product-rating {
+  margin-bottom: 10px;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================================
+   PREMIUM ROW
+========================================= */
+
+.product-premium-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.premium-product-badge,
+.tomorrow-delivery-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+
+  padding: 4px 7px;
+  border-radius: 5px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.premium-product-badge {
+  background: #fff7e6;
+  color: #9a6a16;
+}
+
+.tomorrow-delivery-badge {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+/* =========================================
+   PRICE
+========================================= */
+
+.product-price-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.product-price-row h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.original-price {
+  color: #9ca3af;
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+.discount-price {
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.product-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.product-actions button {
+  min-height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border-radius: 7px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.product-actions svg {
+  width: 15px;
+  height: 15px;
+}
+
+.add-cart-btn {
+  border: 1px solid #111827;
+  background: #ffffff;
+  color: #111827;
+}
+
+.add-cart-btn:hover {
+  background: #111827;
+  color: #ffffff;
+}
+
+.details-btn {
+  border: 1px solid #111827;
+  background: #111827;
+  color: #ffffff;
+}
+
+.details-btn:hover {
+  background: #2c3441;
+  border-color: #2c3441;
+}
+
+/* =========================================
    EMPTY PRODUCTS
-================================ */
+========================================= */
 
 .empty-products {
+  width: 100%;
   min-height: 300px;
 
   display: flex;
@@ -29,67 +303,144 @@
 
   text-align: center;
 
-  color: #64748b;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  background: #ffffff;
 }
 
 .empty-products h2 {
   margin: 0 0 8px;
-
-  color: #071a35;
+  color: #111827;
+  font-size: 20px;
 }
 
-/* ================================
-   TABLET
-================================ */
+.empty-products p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* =========================================
+   LARGE TABLET
+========================================= */
 
 @media (max-width: 1100px) {
   .product-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
   }
+
+  .product-image-container {
+    height: 260px;
+  }
 }
 
-/* ================================
-   SMALL TABLET / MOBILE
-================================ */
+/* =========================================
+   TABLET
+========================================= */
 
-@media (max-width: 750px) {
+@media (max-width: 800px) {
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+    gap: 16px;
+  }
+
+  .product-image-container {
+    height: 250px;
+  }
+
+  .product-info {
+    padding: 14px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 520px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 
   .product-image-container {
     height: 210px;
   }
+
+  .product-info {
+    padding: 11px;
+  }
+
+  .product-info h2 {
+    font-size: 13px;
+  }
+
+  .product-brand {
+    font-size: 11px;
+  }
+
+  .product-color {
+    font-size: 10px;
+  }
+
+  .product-price-row h3 {
+    font-size: 15px;
+  }
+
+  .product-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .product-actions button {
+    min-height: 36px;
+    font-size: 11px;
+  }
+
+  .wishlist-button {
+    top: 8px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    font-size: 19px;
+  }
 }
 
-/* ================================
+/* =========================================
    SMALL MOBILE
-================================ */
+========================================= */
 
-@media (max-width: 480px) {
-  .product-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .product-image-container {
-    height: 180px;
-  }
-}
-
-/* ================================
-   VERY SMALL MOBILE
-================================ */
-
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .product-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
   }
 
   .product-image-container {
-    height: 240px;
+    height: 280px;
   }
+}
+.wishlist-remove-button {
+  width: calc(100% - 32px);
+  height: 36px;
+  margin: 0 16px 16px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #dc2626;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wishlist-remove-button:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
 }
